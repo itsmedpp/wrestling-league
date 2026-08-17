@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { simulateShow } from './simulate'
+import { parseSaveFile } from './saveFile'
 import type { Champions, Division, LeagueState, Match, MatchType, Roster, Show, Side } from './types'
 
 const STORAGE_KEY = 'wrestling-league-state-v1'
@@ -15,9 +16,7 @@ function loadState(): LeagueState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return { rosters: [], shows: [] }
-    const parsed = JSON.parse(raw) as LeagueState
-    if (!Array.isArray(parsed.rosters) || !Array.isArray(parsed.shows)) return { rosters: [], shows: [] }
-    return parsed
+    return parseSaveFile(raw)
   } catch {
     return { rosters: [], shows: [] }
   }
@@ -44,6 +43,7 @@ interface LeagueActions {
   addMatchSide: (showId: string, matchId: string) => void
   removeMatchSide: (showId: string, matchId: string, index: number) => void
   simulate: (showId: string) => void
+  replaceState: (next: LeagueState) => void
 }
 
 const LeagueContext = createContext<LeagueActions | null>(null)
@@ -208,6 +208,9 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
             shows: prev.shows.map((s) => (s.id === showId ? result.show : s)),
           }
         })
+      },
+      replaceState(next) {
+        setState(next)
       },
     }),
     [state, updateRoster, updateShow, updateMatchIn],
