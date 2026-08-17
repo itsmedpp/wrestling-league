@@ -11,12 +11,16 @@ const FINISHES = [
 
 export function sideLabel(state: LeagueState, side: Side): string {
   const roster = state.rosters.find((r) => r.id === side.rosterId)
-  if (!roster) return 'Unknown'
-  const wrestler = roster.wrestlers.find((w) => w.id === side.entrantId)
-  if (wrestler) return wrestler.name
-  const team = roster.tagTeams.find((t) => t.id === side.entrantId)
-  if (team) return team.name
-  return 'Unknown'
+  const names = side.entrantIds
+    .map((id) => roster?.wrestlers.find((w) => w.id === id)?.name ?? 'Unknown')
+    .filter((name) => name !== 'Unknown')
+  return names.length > 0 ? names.join(' & ') : 'Unknown'
+}
+
+export function sameSide(a: Side | null, b: Side): boolean {
+  if (!a || a.rosterId !== b.rosterId || a.entrantIds.length !== b.entrantIds.length) return false
+  const sorted = [...b.entrantIds].sort()
+  return [...a.entrantIds].sort().every((id, i) => id === sorted[i])
 }
 
 function championKey(type: MatchType): keyof Champions {
@@ -38,9 +42,16 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
   const working: LeagueState = { ...state, rosters }
 
   const matches: Match[] = show.matches.map((match) => {
-    const validIndices = match.sides.map((s, i) => (s.entrantId ? i : -1)).filter((i) => i >= 0)
+    const required = match.type === 'tag' ? 2 : 1
+    const validIndices = match.sides
+      .map((s, i) => (s.entrantIds.filter(Boolean).length >= required ? i : -1))
+      .filter((i) => i >= 0)
     if (validIndices.length < 2) {
-      return { ...match, winnerIndex: null, summary: 'Needs at least two competitors' }
+      return {
+        ...match,
+        winnerIndex: null,
+        summary: match.type === 'tag' ? 'Needs at least two teams of two' : 'Needs at least two competitors',
+      }
     }
 
     const winnerIndex = validIndices[Math.floor(Math.random() * validIndices.length)]
@@ -54,12 +65,10 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
       if (titleRoster) {
         const key = championKey(match.type)
         const current = titleRoster.champions[key]
-        const winnerIsChampion =
-          current !== null && current.rosterId === winner.rosterId && current.entrantId === winner.entrantId
-        if (winnerIsChampion) {
+        if (sameSide(current, winner)) {
           summary += ` and retains the ${titleRoster.name} ${titleLabel(match.type)}`
         } else {
-          titleRoster.champions[key] = { rosterId: winner.rosterId, entrantId: winner.entrantId }
+          titleRoster.champions[key] = { rosterId: winner.rosterId, entrantIds: [...winner.entrantIds] }
           summary += ` and wins the ${titleRoster.name} ${titleLabel(match.type)}`
         }
       }

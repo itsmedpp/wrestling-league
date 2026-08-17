@@ -30,9 +30,7 @@ interface LeagueActions {
   addWrestler: (rosterId: string, name: string, division: Division) => void
   updateWrestler: (rosterId: string, wrestlerId: string, name: string, division: Division) => void
   removeWrestler: (rosterId: string, wrestlerId: string) => void
-  addTagTeam: (rosterId: string, name: string, memberIds: string[]) => void
-  removeTagTeam: (rosterId: string, teamId: string) => void
-  setChampion: (rosterId: string, title: keyof Champions, entrantId: string | null) => void
+  setChampion: (rosterId: string, title: keyof Champions, entrantIds: string[]) => void
   addShow: (rosterId: string, name: string) => Show
   renameShow: (showId: string, name: string) => void
   deleteShow: (showId: string) => void
@@ -87,7 +85,6 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           id: newId(),
           name,
           wrestlers: [],
-          tagTeams: [],
           champions: { ...EMPTY_CHAMPIONS },
         }
         setState((prev) => ({ ...prev, rosters: [...prev.rosters, roster] }))
@@ -118,33 +115,20 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
         updateRoster(rosterId, (r) => {
           const champions = { ...r.champions }
           for (const key of Object.keys(champions) as (keyof Champions)[]) {
-            if (champions[key]?.entrantId === wrestlerId) champions[key] = null
+            if (champions[key]?.entrantIds.includes(wrestlerId)) champions[key] = null
           }
           return {
             ...r,
             champions,
             wrestlers: r.wrestlers.filter((w) => w.id !== wrestlerId),
-            tagTeams: r.tagTeams.filter((t) => !t.memberIds.includes(wrestlerId)),
           }
         })
       },
-      addTagTeam(rosterId, name, memberIds) {
+      setChampion(rosterId, title, entrantIds) {
+        const held = entrantIds.filter(Boolean)
         updateRoster(rosterId, (r) => ({
           ...r,
-          tagTeams: [...r.tagTeams, { id: newId(), name, memberIds }],
-        }))
-      },
-      removeTagTeam(rosterId, teamId) {
-        updateRoster(rosterId, (r) => ({
-          ...r,
-          tagTeams: r.tagTeams.filter((t) => t.id !== teamId),
-          champions: r.champions.tag?.entrantId === teamId ? { ...r.champions, tag: null } : r.champions,
-        }))
-      },
-      setChampion(rosterId, title, entrantId) {
-        updateRoster(rosterId, (r) => ({
-          ...r,
-          champions: { ...r.champions, [title]: entrantId ? { rosterId, entrantId } : null },
+          champions: { ...r.champions, [title]: held.length > 0 ? { rosterId, entrantIds: held } : null },
         }))
       },
       addShow(rosterId, name) {
@@ -176,7 +160,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       setMatchSide(showId, matchId, index, side) {
         updateMatchIn(showId, matchId, (m) => {
           const sides = [...m.sides]
-          while (sides.length < index) sides.push({ rosterId: '', entrantId: '' })
+          while (sides.length < index) sides.push({ rosterId: '', entrantIds: [] })
           if (side === null) sides.splice(index, 1)
           else sides[index] = side
           return { ...m, sides, winnerIndex: null, summary: null }
@@ -185,7 +169,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       addMatchSide(showId, matchId) {
         updateMatchIn(showId, matchId, (m) => ({
           ...m,
-          sides: [...m.sides, { rosterId: '', entrantId: '' }],
+          sides: [...m.sides, { rosterId: '', entrantIds: [] }],
           winnerIndex: null,
           summary: null,
         }))

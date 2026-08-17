@@ -8,15 +8,10 @@ export interface Wrestler {
   division: Division
 }
 
-export interface TagTeam {
-  id: string
-  name: string
-  memberIds: string[]
-}
-
+/** A champion: one wrestler for singles titles, two for the tag titles. */
 export interface ChampionRef {
   rosterId: string
-  entrantId: string
+  entrantIds: string[]
 }
 
 export interface Champions {
@@ -25,10 +20,10 @@ export interface Champions {
   tag: ChampionRef | null
 }
 
-/** One side of a match: a wrestler (singles) or a tag team, plus its home roster. */
+/** One side of a match: one wrestler in singles, two in a tag match. */
 export interface Side {
   rosterId: string
-  entrantId: string
+  entrantIds: string[]
 }
 
 export interface Match {
@@ -53,7 +48,6 @@ export interface Roster {
   id: string
   name: string
   wrestlers: Wrestler[]
-  tagTeams: TagTeam[]
   champions: Champions
 }
 
