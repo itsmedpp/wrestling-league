@@ -19,6 +19,26 @@
         "women": null,
         "tag": null
       }
+    },
+    {
+      "id": "qhokssnomsxlxccs",
+      "name": "Vendetta Pro Wrestling",
+      "wrestlers": [
+        {
+          "id": "0r1l90wdmsxlxlbw",
+          "name": "Becky Lynch",
+          "division": "women"
+        }
+      ],
+      "tagTeams": [],
+      "champions": {
+        "men": null,
+        "women": {
+          "rosterId": "qhokssnomsxlxccs",
+          "entrantId": "0r1l90wdmsxlxlbw"
+        },
+        "tag": null
+      }
     }
   ],
   "shows": []
