@@ -44,6 +44,7 @@ interface LeagueActions {
   addMatchSide: (showId: string, matchId: string) => void
   removeMatchSide: (showId: string, matchId: string, index: number) => void
   simulate: (showId: string) => void
+  replaceState: (next: LeagueState) => void
 }
 
 const LeagueContext = createContext<LeagueActions | null>(null)
@@ -208,6 +209,9 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
             shows: prev.shows.map((s) => (s.id === showId ? result.show : s)),
           }
         })
+      },
+      replaceState(next) {
+        setState(next)
       },
     }),
     [state, updateRoster, updateShow, updateMatchIn],

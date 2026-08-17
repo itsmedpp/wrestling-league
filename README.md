@@ -17,6 +17,7 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
 ## How it works
 
 - **Main page** — create, select, open, or delete rosters. Each roster shows its current champions.
+  Export the whole league to a JSON save file, or import one to replace what is stored in this browser.
 - **Roster page** — rename the roster, add/edit/remove wrestlers (men's or women's division), build tag
   teams, set champions manually, and create shows.
 - **Show page** — rename the show, book men's, women's, and tag matches between members of that show's
