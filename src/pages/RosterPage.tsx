@@ -66,7 +66,7 @@ export default function RosterPage() {
         ? roster.tagTeams.map((t) => ({ id: t.id, name: t.name }))
         : roster.wrestlers.filter((w) => w.division === title).map((w) => ({ id: w.id, name: w.name }))
     const current = roster.champions[title]
-    const value = current && current.rosterId === roster.id ? current.entrantId : ''
+    const value = current ? current.entrantId : ''
     return (
       <div className="row" key={title}>
         <span className="title-badge">{label}</span>
@@ -101,7 +101,7 @@ export default function RosterPage() {
         {titleRow('men', "Men's")}
         {titleRow('women', "Women's")}
         {titleRow('tag', 'Tag Team')}
-        <p className="muted">Champions from another roster can only be changed by simulating a title match.</p>
+        <p className="muted">Each roster keeps its own titles; simulating a title match on a show moves them.</p>
       </div>
 
       <div className="grid-2">

@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { sideLabel } from '../simulate'
-import type { LeagueState, Match, MatchType, Side } from '../types'
+import { championName } from '../lookup'
+import type { Match, MatchType, Roster, Side } from '../types'
 
 const TYPE_LABEL: Record<MatchType, string> = {
   men: "Men's singles",
@@ -9,23 +10,10 @@ const TYPE_LABEL: Record<MatchType, string> = {
   tag: 'Tag team',
 }
 
-function entrantOptions(state: LeagueState, type: MatchType) {
-  return state.rosters.map((roster) => ({
-    roster,
-    entrants:
-      type === 'tag'
-        ? roster.tagTeams.map((t) => ({ id: t.id, name: t.name }))
-        : roster.wrestlers.filter((w) => w.division === type).map((w) => ({ id: w.id, name: w.name })),
-  }))
-}
-
-function encodeSide(side: Side): string {
-  return side.entrantId ? `${side.rosterId}:${side.entrantId}` : ''
-}
-
-function decodeSide(value: string): Side {
-  const [rosterId, entrantId] = value.split(':')
-  return { rosterId, entrantId }
+function entrantOptions(roster: Roster, type: MatchType) {
+  return type === 'tag'
+    ? roster.tagTeams.map((t) => ({ id: t.id, name: t.name }))
+    : roster.wrestlers.filter((w) => w.division === type).map((w) => ({ id: w.id, name: w.name }))
 }
 
 export default function ShowPage() {
@@ -46,11 +34,23 @@ export default function ShowPage() {
   }
 
   const homeRoster = state.rosters.find((r) => r.id === show.rosterId)
+
+  if (!homeRoster) {
+    return (
+      <div className="page">
+        <h1>Roster not found</h1>
+        <button onClick={() => navigate('/')}>Back to main page</button>
+      </div>
+    )
+  }
+
+  const roster = homeRoster
   const bookable = show.matches.some((m) => m.sides.filter((s) => s.entrantId).length >= 2)
 
   const renderMatch = (match: Match, index: number) => {
-    const groups = entrantOptions(state, match.type)
-    const sides = match.sides.length >= 2 ? match.sides : [...match.sides, ...Array(2 - match.sides.length).fill({ rosterId: '', entrantId: '' })]
+    const entrants = entrantOptions(roster, match.type)
+    const emptySide: Side = { rosterId: roster.id, entrantId: '' }
+    const sides = match.sides.length >= 2 ? match.sides : [...match.sides, ...Array(2 - match.sides.length).fill(emptySide)]
 
     return (
       <div className="card" key={match.id}>
@@ -84,35 +84,27 @@ export default function ShowPage() {
             ))}
           </select>
 
-          <label className="muted">Title on the line</label>
-          <select
-            value={match.titleRosterId ?? ''}
-            onChange={(e) => updateMatch(show.id, match.id, { titleRosterId: e.target.value || null })}
-          >
-            <option value="">Non-title</option>
-            {state.rosters.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.name} {TYPE_LABEL[match.type]} title
-              </option>
-            ))}
-          </select>
+          <label className="muted">
+            <input
+              type="checkbox"
+              checked={match.titleRosterId !== null}
+              onChange={(e) => updateMatch(show.id, match.id, { titleRosterId: e.target.checked ? roster.id : null })}
+            />{' '}
+            Title match
+          </label>
         </div>
 
         {sides.map((side, i) => (
           <div className="row" key={i}>
             <select
-              value={encodeSide(side)}
-              onChange={(e) => setMatchSide(show.id, match.id, i, decodeSide(e.target.value))}
+              value={side.entrantId}
+              onChange={(e) => setMatchSide(show.id, match.id, i, { rosterId: roster.id, entrantId: e.target.value })}
             >
               <option value="">Select competitor…</option>
-              {groups.map((group) => (
-                <optgroup key={group.roster.id} label={group.roster.name}>
-                  {group.entrants.map((entrant) => (
-                    <option key={entrant.id} value={`${group.roster.id}:${entrant.id}`}>
-                      {entrant.name}
-                    </option>
-                  ))}
-                </optgroup>
+              {entrants.map((entrant) => (
+                <option key={entrant.id} value={entrant.id}>
+                  {entrant.name}
+                </option>
               ))}
             </select>
             {match.winnerIndex === i && <span className="winner">Winner</span>}
@@ -193,25 +185,13 @@ export default function ShowPage() {
         </div>
       )}
 
-      {state.rosters.length > 0 && (
-        <div className="card">
-          <h2>Current champions</h2>
-          <ul className="list">
-            {state.rosters.map((r) => (
-              <li key={r.id}>
-                <span>
-                  <strong>{r.name}</strong>
-                  <div className="muted">
-                    Men: {r.champions.men ? sideLabel(state, r.champions.men) : 'Vacant'} · Women:{' '}
-                    {r.champions.women ? sideLabel(state, r.champions.women) : 'Vacant'} · Tag:{' '}
-                    {r.champions.tag ? sideLabel(state, r.champions.tag) : 'Vacant'}
-                  </div>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className="card">
+        <h2>{roster.name} champions</h2>
+        <p className="muted">
+          Men's: {championName(state, roster.champions.men)} · Women's: {championName(state, roster.champions.women)} ·
+          Tag Team: {championName(state, roster.champions.tag)}
+        </p>
+      </div>
     </div>
   )
 }

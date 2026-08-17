@@ -19,6 +19,7 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
 - **Main page** — create, select, open, or delete rosters. Each roster shows its current champions.
 - **Roster page** — rename the roster, add/edit/remove wrestlers (men's or women's division), build tag
   teams, set champions manually, and create shows.
-- **Show page** — rename the show, book men's, women's, and tag matches (competitors can come from any
-  roster), mark a match as being for a roster's title, then simulate the whole card. Title matches
-  automatically move the belt to the winner.
+- **Show page** — rename the show, book men's, women's, and tag matches between members of that show's
+  roster, flag a match as a title match, then simulate the whole card. Title matches automatically move
+  the roster's belt to the winner. Rosters never mix: each one has its own wrestlers and its own three
+  championships.
