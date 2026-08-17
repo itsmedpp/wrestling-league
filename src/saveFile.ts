@@ -1,6 +1,9 @@
-import type { Champions, ChampionRef, LeagueState, Match, MatchType, Roster, Show, Side, TagTeam, Wrestler } from './types'
+import type { Champions, ChampionRef, LeagueState, Match, MatchType, Roster, Show, Side, Wrestler } from './types'
 
 const MATCH_TYPES: MatchType[] = ['men', 'women', 'tag']
+
+/** Save files written before tag teams were replaced by pairs of wrestlers. */
+type LegacyTeams = Map<string, string[]>
 
 export function downloadSaveFile(state: LeagueState) {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' })
@@ -32,18 +35,26 @@ function arr(value: unknown): unknown[] {
   return value
 }
 
-function championRef(value: unknown): ChampionRef | null {
-  if (value === null || value === undefined) return null
-  if (!isRecord(value)) invalid()
-  return { rosterId: str(value.rosterId), entrantId: str(value.entrantId) }
+function entrantIds(value: Record<string, unknown>, teams: LegacyTeams): string[] {
+  if (value.entrantIds !== undefined) return arr(value.entrantIds).map(str).filter(Boolean)
+  const legacy = str(value.entrantId)
+  if (!legacy) return []
+  return teams.get(legacy) ?? [legacy]
 }
 
-function champions(value: unknown): Champions {
+function championRef(value: unknown, teams: LegacyTeams): ChampionRef | null {
+  if (value === null || value === undefined) return null
+  if (!isRecord(value)) invalid()
+  const ids = entrantIds(value, teams)
+  return ids.length > 0 ? { rosterId: str(value.rosterId), entrantIds: ids } : null
+}
+
+function champions(value: unknown, teams: LegacyTeams): Champions {
   if (!isRecord(value)) return { men: null, women: null, tag: null }
   return {
-    men: championRef(value.men),
-    women: championRef(value.women),
-    tag: championRef(value.tag),
+    men: championRef(value.men, teams),
+    women: championRef(value.women, teams),
+    tag: championRef(value.tag, teams),
   }
 }
 
@@ -53,28 +64,32 @@ function wrestler(value: unknown): Wrestler {
   return { id: str(value.id), name: str(value.name), division }
 }
 
-function tagTeam(value: unknown): TagTeam {
-  if (!isRecord(value)) invalid()
-  return { id: str(value.id), name: str(value.name), memberIds: arr(value.memberIds).map(str) }
+function legacyTeams(value: unknown): LegacyTeams {
+  const teams: LegacyTeams = new Map()
+  if (!isRecord(value) || value.tagTeams === undefined) return teams
+  for (const team of arr(value.tagTeams)) {
+    if (!isRecord(team)) invalid()
+    teams.set(str(team.id), arr(team.memberIds).map(str))
+  }
+  return teams
 }
 
-function roster(value: unknown): Roster {
+function roster(value: unknown, teams: LegacyTeams): Roster {
   if (!isRecord(value)) invalid()
   return {
     id: str(value.id),
     name: str(value.name),
     wrestlers: arr(value.wrestlers).map(wrestler),
-    tagTeams: arr(value.tagTeams).map(tagTeam),
-    champions: champions(value.champions),
+    champions: champions(value.champions, teams),
   }
 }
 
-function side(value: unknown): Side {
+function side(value: unknown, teams: LegacyTeams): Side {
   if (!isRecord(value)) invalid()
-  return { rosterId: str(value.rosterId), entrantId: str(value.entrantId) }
+  return { rosterId: str(value.rosterId), entrantIds: entrantIds(value, teams) }
 }
 
-function match(value: unknown): Match {
+function match(value: unknown, teams: LegacyTeams): Match {
   if (!isRecord(value)) invalid()
   const type = MATCH_TYPES.find((t) => t === value.type)
   if (!type) invalid()
@@ -82,19 +97,19 @@ function match(value: unknown): Match {
     id: str(value.id),
     type,
     titleRosterId: value.titleRosterId == null ? null : str(value.titleRosterId),
-    sides: arr(value.sides).map(side),
+    sides: arr(value.sides).map((s) => side(s, teams)),
     winnerIndex: typeof value.winnerIndex === 'number' ? value.winnerIndex : null,
     summary: typeof value.summary === 'string' ? value.summary : null,
   }
 }
 
-function show(value: unknown): Show {
+function show(value: unknown, teams: LegacyTeams): Show {
   if (!isRecord(value)) invalid()
   return {
     id: str(value.id),
     rosterId: str(value.rosterId),
     name: str(value.name),
-    matches: arr(value.matches).map(match),
+    matches: arr(value.matches).map((m) => match(m, teams)),
     simulatedAt: typeof value.simulatedAt === 'string' ? value.simulatedAt : null,
   }
 }
@@ -102,8 +117,13 @@ function show(value: unknown): Show {
 export function parseSaveFile(text: string): LeagueState {
   const parsed: unknown = JSON.parse(text)
   if (!isRecord(parsed)) invalid()
+  const rosters = arr(parsed.rosters)
+  const teams: LegacyTeams = new Map()
+  for (const entry of rosters) {
+    for (const [id, memberIds] of legacyTeams(entry)) teams.set(id, memberIds)
+  }
   return {
-    rosters: arr(parsed.rosters).map(roster),
-    shows: arr(parsed.shows).map(show),
+    rosters: rosters.map((r) => roster(r, teams)),
+    shows: arr(parsed.shows).map((s) => show(s, teams)),
   }
 }

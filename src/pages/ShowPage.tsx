@@ -11,9 +11,7 @@ const TYPE_LABEL: Record<MatchType, string> = {
 }
 
 function entrantOptions(roster: Roster, type: MatchType) {
-  return type === 'tag'
-    ? roster.tagTeams.map((t) => ({ id: t.id, name: t.name }))
-    : roster.wrestlers.filter((w) => w.division === type).map((w) => ({ id: w.id, name: w.name }))
+  return type === 'tag' ? roster.wrestlers : roster.wrestlers.filter((w) => w.division === type)
 }
 
 export default function ShowPage() {
@@ -45,11 +43,14 @@ export default function ShowPage() {
   }
 
   const roster = homeRoster
-  const bookable = show.matches.some((m) => m.sides.filter((s) => s.entrantId).length >= 2)
+  const filledSides = (match: Match) =>
+    match.sides.filter((s) => s.entrantIds.filter(Boolean).length >= (match.type === 'tag' ? 2 : 1)).length
+  const bookable = show.matches.some((m) => filledSides(m) >= 2)
 
   const renderMatch = (match: Match, index: number) => {
     const entrants = entrantOptions(roster, match.type)
-    const emptySide: Side = { rosterId: roster.id, entrantId: '' }
+    const slots = match.type === 'tag' ? [0, 1] : [0]
+    const emptySide: Side = { rosterId: roster.id, entrantIds: [] }
     const sides = match.sides.length >= 2 ? match.sides : [...match.sides, ...Array(2 - match.sides.length).fill(emptySide)]
 
     return (
@@ -96,17 +97,24 @@ export default function ShowPage() {
 
         {sides.map((side, i) => (
           <div className="row" key={i}>
-            <select
-              value={side.entrantId}
-              onChange={(e) => setMatchSide(show.id, match.id, i, { rosterId: roster.id, entrantId: e.target.value })}
-            >
-              <option value="">Select competitor…</option>
-              {entrants.map((entrant) => (
-                <option key={entrant.id} value={entrant.id}>
-                  {entrant.name}
-                </option>
-              ))}
-            </select>
+            {slots.map((slot) => (
+              <select
+                key={slot}
+                value={side.entrantIds[slot] ?? ''}
+                onChange={(e) => {
+                  const entrantIds = [...side.entrantIds]
+                  entrantIds[slot] = e.target.value
+                  setMatchSide(show.id, match.id, i, { rosterId: roster.id, entrantIds })
+                }}
+              >
+                <option value="">Select competitor…</option>
+                {entrants.map((entrant) => (
+                  <option key={entrant.id} value={entrant.id}>
+                    {entrant.name}
+                  </option>
+                ))}
+              </select>
+            ))}
             {match.winnerIndex === i && <span className="winner">Winner</span>}
             {sides.length > 2 && (
               <button className="secondary" onClick={() => removeMatchSide(show.id, match.id, i)}>
@@ -118,7 +126,7 @@ export default function ShowPage() {
 
         <div className="row">
           <button className="secondary" onClick={() => addMatchSide(show.id, match.id)}>
-            Add competitor
+            {match.type === 'tag' ? 'Add team' : 'Add competitor'}
           </button>
         </div>
 
