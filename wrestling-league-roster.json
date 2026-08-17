@@ -1,0 +1,25 @@
+{
+  "rosters": [
+    {
+      "id": "nqjok98cmsxkhxeo",
+      "name": "Power Pro Wrestling",
+      "wrestlers": [
+        {
+          "id": "alc1idbpmsxki15d",
+          "name": "Cody Rhodes",
+          "division": "men"
+        }
+      ],
+      "tagTeams": [],
+      "champions": {
+        "men": {
+          "rosterId": "nqjok98cmsxkhxeo",
+          "entrantId": "alc1idbpmsxki15d"
+        },
+        "women": null,
+        "tag": null
+      }
+    }
+  ],
+  "shows": []
+}
