@@ -3,12 +3,23 @@ import { useNavigate } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championName } from '../lookup'
 import { downloadSaveFile, parseSaveFile } from '../saveFile'
+import {
+  GITHUB_FILE_URL,
+  GITHUB_PATH,
+  loadFromGitHub,
+  loadToken,
+  saveToGitHub,
+  storeToken,
+} from '../github'
 
 export default function HomePage() {
   const { state, addRoster, deleteRoster, replaceState } = useLeague()
   const [name, setName] = useState('')
   const [selectedId, setSelectedId] = useState('')
   const [saveMessage, setSaveMessage] = useState('')
+  const [token, setToken] = useState(loadToken)
+  const [githubMessage, setGithubMessage] = useState('')
+  const [busy, setBusy] = useState(false)
   const fileInput = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
@@ -37,6 +48,42 @@ export default function HomePage() {
     } catch (error) {
       setSaveMessage(error instanceof Error ? error.message : 'Could not read that file.')
     }
+  }
+
+  const pullFromGitHub = async () => {
+    setBusy(true)
+    setGithubMessage('')
+    try {
+      const remote = await loadFromGitHub(token)
+      const counts = `${remote.rosters.length} rosters and ${remote.shows.length} shows`
+      if (confirm(`Replace everything currently saved with ${counts} from GitHub?`)) {
+        replaceState(remote)
+        setSelectedId('')
+        setGithubMessage(`Loaded ${counts} from GitHub.`)
+      }
+    } catch (error) {
+      setGithubMessage(error instanceof Error ? error.message : 'Could not load from GitHub.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const pushToGitHub = async () => {
+    setBusy(true)
+    setGithubMessage('')
+    try {
+      await saveToGitHub(token, state)
+      setGithubMessage(`Saved ${GITHUB_PATH} to GitHub.`)
+    } catch (error) {
+      setGithubMessage(error instanceof Error ? error.message : 'Could not save to GitHub.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const updateToken = (next: string) => {
+    setToken(next)
+    storeToken(next)
   }
 
   return (
@@ -121,6 +168,35 @@ export default function HomePage() {
           />
         </div>
         {saveMessage && <p className="muted">{saveMessage}</p>}
+      </div>
+
+      <div className="card">
+        <h2>GitHub sync</h2>
+        <p className="muted">
+          Shares one league through <a href={GITHUB_FILE_URL}>{GITHUB_PATH}</a> in the repo. Saving needs a
+          GitHub token with write access, kept in this browser only; loading needs one too while the repo
+          is private.
+        </p>
+        <div className="row">
+          <input
+            type="password"
+            value={token}
+            placeholder="GitHub token (for saving)"
+            onChange={(e) => updateToken(e.target.value.trim())}
+          />
+          <button onClick={() => updateToken('')} disabled={!token}>
+            Forget token
+          </button>
+        </div>
+        <div className="row">
+          <button onClick={() => void pullFromGitHub()} disabled={busy}>
+            Load from GitHub
+          </button>
+          <button onClick={() => void pushToGitHub()} disabled={busy || !token}>
+            Save to GitHub
+          </button>
+        </div>
+        {githubMessage && <p className="muted">{githubMessage}</p>}
       </div>
     </div>
   )
