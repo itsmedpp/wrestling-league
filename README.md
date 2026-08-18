@@ -16,8 +16,7 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
 
 ## How it works
 
-- **Main page** — create, select, open, or delete rosters. Each roster shows its current champions.
-  Export the whole league to a JSON save file, or import one to replace what is stored in this browser.
+- **Main page** — create, open, or delete rosters. Each roster shows its owner and current champions.
   "GitHub sync" reads and writes the same league as `wrestling-league-roster.json` on `main` through the
   GitHub API, so it can be shared between devices. Saving requires a GitHub token with write access to
   the repo (a fine-grained token with Contents: Read and write is enough); the token is kept in this

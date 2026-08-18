@@ -5,16 +5,6 @@ const MATCH_TYPES: MatchType[] = ['men', 'women', 'tag', 'tag6', 'tag8']
 /** Save files written before tag teams were replaced by pairs of wrestlers. */
 type LegacyTeams = Map<string, string[]>
 
-export function downloadSaveFile(state: LeagueState) {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' })
-  const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `wrestling-league-${new Date().toISOString().slice(0, 10)}.json`
-  link.click()
-  URL.revokeObjectURL(url)
-}
-
 class SaveFileError extends Error {}
 
 function invalid(): never {
