@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
-import { sideLabel } from '../simulate'
+import { championInMatch, sideLabel } from '../simulate'
 import { championName } from '../lookup'
 import { allStipulations, BUILT_IN_STIPULATIONS } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
@@ -63,6 +63,17 @@ export default function ShowPage() {
 
   const stipulations = allStipulations(state)
 
+  const titleWarning = (match: Match, sides: Side[]) => {
+    const champion = roster.champions[match.type]
+    if (!champion) return <span className="muted">Vacant title — the winner claims it on a pinfall or submission.</span>
+    if (championInMatch(champion, sides)) return null
+    return (
+      <span className="muted">
+        {championName(state, champion)} is not in this match, so the title stays with them.
+      </span>
+    )
+  }
+
   const renderMatch = (match: Match, index: number) => {
     const entrants = entrantOptions(roster, match.type)
     const stipulationOptions =
@@ -114,6 +125,7 @@ export default function ShowPage() {
             />{' '}
             Title match
           </label>
+          {match.titleRosterId && titleWarning(match, sides)}
         </div>
 
         <div className="row">

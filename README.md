@@ -27,5 +27,6 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
 - **Show page** — rename the show, book men's, women's, and tag matches between members of that show's
   roster, give each match a stipulation (Ladder Match, Steel Cage, and so on — add your own to the list
   in the "Stipulations" card), flag a match as a title match, then simulate the whole card. Title
-  matches automatically move the roster's belt to the winner. Rosters never mix: each one has its own wrestlers and its own three
-  championships.
+  matches move the roster's belt to the winner, but only if the current champion was in the match and
+  the finish was a pinfall or submission — count-outs and disqualifications never change a title. Rosters never mix:
+  each one has its own wrestlers and its own three championships.
