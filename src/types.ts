@@ -29,6 +29,8 @@ export interface Side {
 export interface Match {
   id: string
   type: MatchType
+  /** Stipulation such as "Ladder Match"; empty means a standard match. */
+  stipulation: string
   /** When set, the match is for this roster's title in the match's division. */
   titleRosterId: string | null
   sides: Side[]
@@ -54,4 +56,6 @@ export interface Roster {
 export interface LeagueState {
   rosters: Roster[]
   shows: Show[]
+  /** Custom stipulations, offered alongside the built-in ones. */
+  stipulations: string[]
 }

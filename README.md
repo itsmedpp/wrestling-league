@@ -1,6 +1,6 @@
 # wrestling-league
 
-A wrestling league simulator. Create rosters of wrestlers and tag teams, book shows, simulate the
+A wrestling league simulator. Create rosters of wrestlers, book shows, simulate the
 matches, and let the results move the men's, women's, and tag team championships around.
 
 Everything is stored in the browser via `localStorage`, so there is no backend to run.
@@ -25,6 +25,7 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
 - **Roster page** — rename the roster, add/edit/remove wrestlers (men's or women's division), set
   champions manually (the tag titles take any two names from the roster), and create shows.
 - **Show page** — rename the show, book men's, women's, and tag matches between members of that show's
-  roster, flag a match as a title match, then simulate the whole card. Title matches automatically move
-  the roster's belt to the winner. Rosters never mix: each one has its own wrestlers and its own three
+  roster, give each match a stipulation (Ladder Match, Steel Cage, and so on — add your own to the list
+  in the "Stipulations" card), flag a match as a title match, then simulate the whole card. Title
+  matches automatically move the roster's belt to the winner. Rosters never mix: each one has its own wrestlers and its own three
   championships.

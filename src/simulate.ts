@@ -23,6 +23,12 @@ export function sameSide(a: Side | null, b: Side): boolean {
   return [...a.entrantIds].sort().every((id, i) => id === sorted[i])
 }
 
+function stipulationClause(stipulation: string): string {
+  if (!stipulation || stipulation === 'Standard Match') return ''
+  const article = /^[aeiou]/i.test(stipulation) ? 'an' : 'a'
+  return ` in ${article} ${stipulation}`
+}
+
 function championKey(type: MatchType): keyof Champions {
   return type === 'men' ? 'men' : type === 'women' ? 'women' : 'tag'
 }
@@ -58,7 +64,7 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
     const winner = match.sides[winnerIndex]
     const finish = FINISHES[Math.floor(Math.random() * FINISHES.length)]
     const losers = validIndices.filter((i) => i !== winnerIndex).map((i) => sideLabel(working, match.sides[i]))
-    let summary = `${sideLabel(working, winner)} ${finish} over ${losers.join(', ')}`
+    let summary = `${sideLabel(working, winner)} ${finish} over ${losers.join(', ')}${stipulationClause(match.stipulation)}`
 
     if (match.titleRosterId) {
       const titleRoster = rosters.find((r) => r.id === match.titleRosterId)

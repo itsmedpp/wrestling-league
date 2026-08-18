@@ -2,11 +2,14 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react'
 import { simulateShow } from './simulate'
 import { parseSaveFile } from './saveFile'
+import { BUILT_IN_STIPULATIONS } from './stipulations'
 import type { Champions, Division, LeagueState, Match, MatchType, Roster, Show, Side } from './types'
 
 const STORAGE_KEY = 'wrestling-league-state-v1'
 
 const EMPTY_CHAMPIONS: Champions = { men: null, women: null, tag: null }
+
+const EMPTY_STATE: LeagueState = { rosters: [], shows: [], stipulations: [] }
 
 function newId(): string {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36)
@@ -15,10 +18,10 @@ function newId(): string {
 function loadState(): LeagueState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { rosters: [], shows: [] }
+    if (!raw) return EMPTY_STATE
     return parseSaveFile(raw)
   } catch {
-    return { rosters: [], shows: [] }
+    return EMPTY_STATE
   }
 }
 
@@ -40,6 +43,8 @@ interface LeagueActions {
   setMatchSide: (showId: string, matchId: string, index: number, side: Side | null) => void
   addMatchSide: (showId: string, matchId: string) => void
   removeMatchSide: (showId: string, matchId: string, index: number) => void
+  addStipulation: (name: string) => void
+  removeStipulation: (name: string) => void
   simulate: (showId: string) => void
   replaceState: (next: LeagueState) => void
 }
@@ -95,6 +100,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       },
       deleteRoster(rosterId) {
         setState((prev) => ({
+          ...prev,
           rosters: prev.rosters.filter((r) => r.id !== rosterId),
           shows: prev.shows.filter((s) => s.rosterId !== rosterId),
         }))
@@ -147,7 +153,15 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           ...show,
           matches: [
             ...show.matches,
-            { id: newId(), type, titleRosterId: null, sides: [], winnerIndex: null, summary: null },
+            {
+              id: newId(),
+              type,
+              stipulation: '',
+              titleRosterId: null,
+              sides: [],
+              winnerIndex: null,
+              summary: null,
+            },
           ],
         }))
       },
@@ -182,12 +196,23 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           summary: null,
         }))
       },
+      addStipulation(name) {
+        setState((prev) =>
+          prev.stipulations.includes(name) || BUILT_IN_STIPULATIONS.includes(name)
+            ? prev
+            : { ...prev, stipulations: [...prev.stipulations, name] },
+        )
+      },
+      removeStipulation(name) {
+        setState((prev) => ({ ...prev, stipulations: prev.stipulations.filter((s) => s !== name) }))
+      },
       simulate(showId) {
         setState((prev) => {
           const show = prev.shows.find((s) => s.id === showId)
           if (!show) return prev
           const result = simulateShow(prev, show)
           return {
+            ...prev,
             rosters: result.rosters,
             shows: prev.shows.map((s) => (s.id === showId ? result.show : s)),
           }

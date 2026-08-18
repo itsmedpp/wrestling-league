@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { sideLabel } from '../simulate'
 import { championName } from '../lookup'
+import { allStipulations, BUILT_IN_STIPULATIONS } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
 
 const TYPE_LABEL: Record<MatchType, string> = {
@@ -17,8 +19,20 @@ function entrantOptions(roster: Roster, type: MatchType) {
 export default function ShowPage() {
   const { showId = '' } = useParams()
   const navigate = useNavigate()
-  const { state, renameShow, addMatch, updateMatch, removeMatch, setMatchSide, addMatchSide, removeMatchSide, simulate } =
-    useLeague()
+  const {
+    state,
+    renameShow,
+    addMatch,
+    updateMatch,
+    removeMatch,
+    setMatchSide,
+    addMatchSide,
+    removeMatchSide,
+    addStipulation,
+    removeStipulation,
+    simulate,
+  } = useLeague()
+  const [newStipulation, setNewStipulation] = useState('')
 
   const show = state.shows.find((s) => s.id === showId)
 
@@ -47,8 +61,14 @@ export default function ShowPage() {
     match.sides.filter((s) => s.entrantIds.filter(Boolean).length >= (match.type === 'tag' ? 2 : 1)).length
   const bookable = show.matches.some((m) => filledSides(m) >= 2)
 
+  const stipulations = allStipulations(state)
+
   const renderMatch = (match: Match, index: number) => {
     const entrants = entrantOptions(roster, match.type)
+    const stipulationOptions =
+      match.stipulation && !stipulations.includes(match.stipulation)
+        ? [...stipulations, match.stipulation]
+        : stipulations
     const slots = match.type === 'tag' ? [0, 1] : [0]
     const emptySide: Side = { rosterId: roster.id, entrantIds: [] }
     const sides = match.sides.length >= 2 ? match.sides : [...match.sides, ...Array(2 - match.sides.length).fill(emptySide)]
@@ -58,6 +78,7 @@ export default function ShowPage() {
         <div className="row spread">
           <h3>
             Match {index + 1} · {TYPE_LABEL[match.type]}
+            {match.stipulation && ` · ${match.stipulation}`}
           </h3>
           <button className="danger" onClick={() => removeMatch(show.id, match.id)}>
             Remove match
@@ -93,6 +114,21 @@ export default function ShowPage() {
             />{' '}
             Title match
           </label>
+        </div>
+
+        <div className="row">
+          <label className="muted">Stipulation</label>
+          <select
+            value={match.stipulation}
+            onChange={(e) => updateMatch(show.id, match.id, { stipulation: e.target.value })}
+          >
+            <option value="">Standard Match</option>
+            {stipulationOptions.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
         </div>
 
         {sides.map((side, i) => (
@@ -192,6 +228,42 @@ export default function ShowPage() {
           </ul>
         </div>
       )}
+
+      <div className="card">
+        <h2>Stipulations</h2>
+        <p className="muted">Add your own match types; they show up in every match's stipulation list.</p>
+        <div className="row">
+          <input
+            value={newStipulation}
+            placeholder="e.g. Casket Match"
+            onChange={(e) => setNewStipulation(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              const name = newStipulation.trim()
+              if (!name) return
+              addStipulation(name)
+              setNewStipulation('')
+            }}
+          >
+            Add stipulation
+          </button>
+        </div>
+        {state.stipulations.length === 0 ? (
+          <p className="muted">Using the {BUILT_IN_STIPULATIONS.length} built-in stipulations.</p>
+        ) : (
+          <ul className="list">
+            {state.stipulations.map((s) => (
+              <li key={s}>
+                <span>{s}</span>
+                <button className="danger" onClick={() => removeStipulation(s)}>
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className="card">
         <h2>{roster.name} champions</h2>

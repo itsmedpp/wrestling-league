@@ -96,6 +96,7 @@ function match(value: unknown, teams: LegacyTeams): Match {
   return {
     id: str(value.id),
     type,
+    stipulation: typeof value.stipulation === 'string' ? value.stipulation : '',
     titleRosterId: value.titleRosterId == null ? null : str(value.titleRosterId),
     sides: arr(value.sides).map((s) => side(s, teams)),
     winnerIndex: typeof value.winnerIndex === 'number' ? value.winnerIndex : null,
@@ -125,5 +126,7 @@ export function parseSaveFile(text: string): LeagueState {
   return {
     rosters: rosters.map((r) => roster(r, teams)),
     shows: arr(parsed.shows).map((s) => show(s, teams)),
+    stipulations:
+      parsed.stipulations === undefined ? [] : arr(parsed.stipulations).map(str).filter(Boolean),
   }
 }
