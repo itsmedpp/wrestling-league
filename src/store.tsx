@@ -29,6 +29,7 @@ interface LeagueActions {
   state: LeagueState
   addRoster: (name: string) => Roster
   renameRoster: (rosterId: string, name: string) => void
+  setRosterOwner: (rosterId: string, owner: string) => void
   deleteRoster: (rosterId: string) => void
   addWrestler: (rosterId: string, name: string, division: Division) => void
   updateWrestler: (rosterId: string, wrestlerId: string, name: string, division: Division) => void
@@ -89,6 +90,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
         const roster: Roster = {
           id: newId(),
           name,
+          owner: '',
           wrestlers: [],
           champions: { ...EMPTY_CHAMPIONS },
         }
@@ -97,6 +99,9 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       },
       renameRoster(rosterId, name) {
         updateRoster(rosterId, (r) => ({ ...r, name }))
+      },
+      setRosterOwner(rosterId, owner) {
+        updateRoster(rosterId, (r) => ({ ...r, owner }))
       },
       deleteRoster(rosterId) {
         setState((prev) => ({

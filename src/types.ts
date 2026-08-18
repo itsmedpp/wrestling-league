@@ -1,6 +1,7 @@
 export type Division = 'men' | 'women'
 
-export type MatchType = 'men' | 'women' | 'tag'
+/** `tag6` and `tag8` are the six- and eight-man tags; they can never be title matches. */
+export type MatchType = 'men' | 'women' | 'tag' | 'tag6' | 'tag8'
 
 export interface Wrestler {
   id: string
@@ -20,7 +21,7 @@ export interface Champions {
   tag: ChampionRef | null
 }
 
-/** One side of a match: one wrestler in singles, two in a tag match. */
+/** One side of a match: one wrestler in singles, two to four in the tag matches. */
 export interface Side {
   rosterId: string
   entrantIds: string[]
@@ -49,6 +50,7 @@ export interface Show {
 export interface Roster {
   id: string
   name: string
+  owner: string
   wrestlers: Wrestler[]
   champions: Champions
 }
