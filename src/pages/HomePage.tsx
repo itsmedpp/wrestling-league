@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championName } from '../lookup'
+import LogoPicker from '../LogoPicker'
 import {
   GITHUB_FILE_URL,
   GITHUB_PATH,
@@ -12,7 +13,7 @@ import {
 } from '../github'
 
 export default function HomePage() {
-  const { state, addRoster, deleteRoster, replaceState } = useLeague()
+  const { state, addRoster, deleteRoster, replaceState, setLeagueLogo } = useLeague()
   const [name, setName] = useState('')
   const [token, setToken] = useState(loadToken)
   const [githubMessage, setGithubMessage] = useState('')
@@ -69,8 +70,18 @@ export default function HomePage() {
 
   return (
     <div className="page">
-      <h1>Wrestling League Simulator</h1>
-      <p className="subtitle">Build rosters, book shows, and let the matches decide your champions.</p>
+      <div className="row">
+        {state.leagueLogo && <img className="logo logo-large" src={state.leagueLogo} alt="League logo" />}
+        <div>
+          <h1>Wrestling League Simulator</h1>
+          <p className="subtitle">Build rosters, book shows, and let the matches decide your champions.</p>
+        </div>
+      </div>
+
+      <div className="card">
+        <h2>League logo</h2>
+        <LogoPicker logo={state.leagueLogo} alt="League logo" onChange={setLeagueLogo} />
+      </div>
 
       <div className="card">
         <h2>Create a roster</h2>
@@ -93,14 +104,17 @@ export default function HomePage() {
         <ul className="list">
           {state.rosters.map((roster) => (
             <li key={roster.id}>
-              <div>
-                <button className="link-button" onClick={() => navigate(`/roster/${roster.id}`)}>
-                  {roster.name}
-                </button>
-                <div className="muted">
-                  {roster.owner && `Owner: ${roster.owner} · `}
-                  {roster.wrestlers.length} wrestlers · Men: {championName(state, roster.champions.men)} · Women:{' '}
-                  {championName(state, roster.champions.women)} · Tag: {championName(state, roster.champions.tag)}
+              <div className="row">
+                {roster.logo && <img className="logo" src={roster.logo} alt={`${roster.name} logo`} />}
+                <div>
+                  <button className="link-button" onClick={() => navigate(`/roster/${roster.id}`)}>
+                    {roster.name}
+                  </button>
+                  <div className="muted">
+                    {roster.owner && `Owner: ${roster.owner} · `}
+                    {roster.wrestlers.length} wrestlers · Men: {championName(state, roster.champions.men)} · Women:{' '}
+                    {championName(state, roster.champions.women)} · Tag: {championName(state, roster.champions.tag)}
+                  </div>
                 </div>
               </div>
               <button className="danger" onClick={() => remove(roster.id, roster.name)}>

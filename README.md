@@ -16,12 +16,14 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
 
 ## How it works
 
-- **Main page** — create, open, or delete rosters. Each roster shows its owner and current champions.
+- **Main page** — set the league logo, and create, open, or delete rosters. Each roster shows its logo,
+  owner, and current champions.
   "GitHub sync" reads and writes the same league as `wrestling-league-roster.json` on `main` through the
   GitHub API, so it can be shared between devices. Saving requires a GitHub token with write access to
   the repo (a fine-grained token with Contents: Read and write is enough); the token is kept in this
   browser's `localStorage` and never committed. While the repo is private, loading needs the token too.
-- **Roster page** — rename the roster, set its owner, add/edit/remove wrestlers (men's or women's division), set
+  Logos are downscaled to 256px and stored in the league data itself, so they sync with everything else.
+- **Roster page** — rename the roster, set its owner and logo, add/edit/remove wrestlers (men's or women's division), set
   champions manually (the tag titles take any two names from the roster), and create shows.
 - **Show page** — rename the show, book men's, women's, tag, 6-man tag, and 8-man tag matches between
   members of that show's roster (6- and 8-man tags are always non-title), give each match a stipulation
