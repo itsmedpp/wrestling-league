@@ -109,7 +109,7 @@
         "men": {
           "rosterId": "nqjok98cmsxkhxeo",
           "entrantIds": [
-            "alc1idbpmsxki15d"
+            "wgd8h6mfmsxwdl96"
           ]
         },
         "women": {
@@ -149,5 +149,89 @@
       }
     }
   ],
-  "shows": []
+  "shows": [
+    {
+      "id": "uihyczonmsxybcj6",
+      "rosterId": "nqjok98cmsxkhxeo",
+      "name": "August",
+      "matches": [
+        {
+          "id": "v5ufccv6msxyc0vt",
+          "type": "men",
+          "stipulation": "Ladder Match",
+          "titleRosterId": "nqjok98cmsxkhxeo",
+          "sides": [
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "alc1idbpmsxki15d"
+              ]
+            },
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "58p9zpjbmsxwcwri"
+              ]
+            },
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "wgd8h6mfmsxwdl96"
+              ]
+            }
+          ],
+          "winnerIndex": 2,
+          "summary": "Jacob Fatu wins by disqualification over Cody Rhodes, Bron Breakker in a Ladder Match and wins the Power Pro Wrestling Men's Championship"
+        },
+        {
+          "id": "63rwfy40msxyfdr4",
+          "type": "tag",
+          "stipulation": "",
+          "titleRosterId": "nqjok98cmsxkhxeo",
+          "sides": [
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "11tkyebymsxwlliw",
+                "sesb2fp0msxwm1cz"
+              ]
+            },
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "a5duaujxmsxwmtth",
+                "1mgkl7jfmsxwn0q8"
+              ]
+            }
+          ],
+          "winnerIndex": 0,
+          "summary": "Jey Uso & Jimmy Uso wins after a distraction over Chad Gable & El Grande Americano and retains the Power Pro Wrestling Tag Team Championship"
+        },
+        {
+          "id": "wiald4bwmsxyk6ws",
+          "type": "women",
+          "stipulation": "",
+          "titleRosterId": "nqjok98cmsxkhxeo",
+          "sides": [
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "eav151p3msxwne6g"
+              ]
+            },
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "mg79w505msxwnbed"
+              ]
+            }
+          ],
+          "winnerIndex": 0,
+          "summary": "Naomi wins by count-out over Lyra Valkyria and retains the Power Pro Wrestling Women's Championship"
+        }
+      ],
+      "simulatedAt": "2026-08-18T01:04:09.274Z"
+    }
+  ],
+  "stipulations": []
 }
