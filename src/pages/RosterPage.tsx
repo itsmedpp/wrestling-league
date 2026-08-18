@@ -165,7 +165,10 @@ export default function RosterPage() {
                   {show.name}
                 </button>
                 <div className="muted">
-                  {show.matches.length} matches · {show.simulatedAt ? 'simulated' : 'not simulated'}
+                  {show.matches.length} matches ·{' '}
+                  {show.simulatedAt
+                    ? `simulated ${new Date(show.simulatedAt).toLocaleString()}`
+                    : 'not simulated'}
                 </div>
               </div>
               <button className="danger" onClick={() => confirm(`Delete "${show.name}"?`) && deleteShow(show.id)}>

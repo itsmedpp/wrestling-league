@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championInMatch, sideLabel, SIDE_SIZE, titleKey } from '../simulate'
 import { championName } from '../lookup'
-import { allStipulations, BUILT_IN_STIPULATIONS } from '../stipulations'
+import { allStipulations, BUILT_IN_STIPULATIONS, sortStipulations } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
 
 const TYPE_LABEL: Record<MatchType, string> = {
@@ -84,7 +84,7 @@ export default function ShowPage() {
     const entrants = entrantOptions(roster, match.type)
     const stipulationOptions =
       match.stipulation && !stipulations.includes(match.stipulation)
-        ? [...stipulations, match.stipulation]
+        ? sortStipulations([...stipulations, match.stipulation])
         : stipulations
     const slots = Array.from({ length: SIDE_SIZE[match.type] }, (_, slot) => slot)
     const emptySide: Side = { rosterId: roster.id, entrantIds: [] }
@@ -279,7 +279,7 @@ export default function ShowPage() {
           <p className="muted">Using the {BUILT_IN_STIPULATIONS.length} built-in stipulations.</p>
         ) : (
           <ul className="list">
-            {state.stipulations.map((s) => (
+            {sortStipulations(state.stipulations).map((s) => (
               <li key={s}>
                 <span>{s}</span>
                 <button className="danger" onClick={() => removeStipulation(s)}>
