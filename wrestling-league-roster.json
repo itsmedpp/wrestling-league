@@ -8,16 +8,123 @@
           "id": "alc1idbpmsxki15d",
           "name": "Cody Rhodes",
           "division": "men"
+        },
+        {
+          "id": "58p9zpjbmsxwcwri",
+          "name": "Bron Breakker",
+          "division": "men"
+        },
+        {
+          "id": "wgd8h6mfmsxwdl96",
+          "name": "Jacob Fatu",
+          "division": "men"
+        },
+        {
+          "id": "11tkyebymsxwlliw",
+          "name": "Jey Uso",
+          "division": "men"
+        },
+        {
+          "id": "1ljby4ygmsxwlt0p",
+          "name": "Hangman Adam Page",
+          "division": "men"
+        },
+        {
+          "id": "sesb2fp0msxwm1cz",
+          "name": "Jimmy Uso",
+          "division": "men"
+        },
+        {
+          "id": "59ubepiymsxwmhnx",
+          "name": "El Hijo Del Vikingo",
+          "division": "men"
+        },
+        {
+          "id": "0in5ky0pmsxwmnyf",
+          "name": "Solo Sikoa",
+          "division": "men"
+        },
+        {
+          "id": "a5duaujxmsxwmtth",
+          "name": "Chad Gable",
+          "division": "men"
+        },
+        {
+          "id": "1mgkl7jfmsxwn0q8",
+          "name": "El Grande Americano",
+          "division": "men"
+        },
+        {
+          "id": "mg79w505msxwnbed",
+          "name": "Lyra Valkyria",
+          "division": "women"
+        },
+        {
+          "id": "eav151p3msxwne6g",
+          "name": "Naomi",
+          "division": "women"
+        },
+        {
+          "id": "vh5vpc6pmsxwnjaw",
+          "name": "Alexa Bliss",
+          "division": "women"
+        },
+        {
+          "id": "pvutq5acmsxwnnx9",
+          "name": "Kiana James",
+          "division": "women"
+        },
+        {
+          "id": "7kbiesgfmsxwnyxw",
+          "name": "Arianna Grace",
+          "division": "women"
+        },
+        {
+          "id": "ef7sjcytmsxwo41m",
+          "name": "Nikki Bella",
+          "division": "women"
+        },
+        {
+          "id": "glgk4w2emsxwobh8",
+          "name": "Nikkita Lyons",
+          "division": "women"
+        },
+        {
+          "id": "4za43rzjmsxwogi5",
+          "name": "Piper Niven",
+          "division": "women"
+        },
+        {
+          "id": "lf0vfd9rmsxwol4s",
+          "name": "Nikki Cross",
+          "division": "women"
+        },
+        {
+          "id": "o3e65zy5msxwooar",
+          "name": "Ruby Soho",
+          "division": "women"
         }
       ],
-      "tagTeams": [],
       "champions": {
         "men": {
           "rosterId": "nqjok98cmsxkhxeo",
-          "entrantId": "alc1idbpmsxki15d"
+          "entrantIds": [
+            "alc1idbpmsxki15d"
+          ]
         },
-        "women": null,
-        "tag": null
+        "women": {
+          "rosterId": "nqjok98cmsxkhxeo",
+          "entrantIds": [
+            "eav151p3msxwne6g"
+          ]
+        },
+        "tag": {
+          "rosterId": "nqjok98cmsxkhxeo",
+          "entrantIds": [
+            "11tkyebymsxwlliw",
+            "sesb2fp0msxwm1cz"
+          ]
+        }
       }
     },
     {
@@ -30,12 +137,13 @@
           "division": "women"
         }
       ],
-      "tagTeams": [],
       "champions": {
         "men": null,
         "women": {
           "rosterId": "qhokssnomsxlxccs",
-          "entrantId": "0r1l90wdmsxlxlbw"
+          "entrantIds": [
+            "0r1l90wdmsxlxlbw"
+          ]
         },
         "tag": null
       }
