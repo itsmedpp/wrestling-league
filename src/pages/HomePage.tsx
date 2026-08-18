@@ -134,6 +134,7 @@ export default function HomePage() {
                   {roster.name}
                 </button>
                 <div className="muted">
+                  {roster.owner && `Owner: ${roster.owner} · `}
                   {roster.wrestlers.length} wrestlers · Men: {championName(state, roster.champions.men)} · Women:{' '}
                   {championName(state, roster.champions.women)} · Tag: {championName(state, roster.champions.tag)}
                 </div>

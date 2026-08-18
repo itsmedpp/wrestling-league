@@ -1,6 +1,6 @@
 import type { Champions, ChampionRef, LeagueState, Match, MatchType, Roster, Show, Side, Wrestler } from './types'
 
-const MATCH_TYPES: MatchType[] = ['men', 'women', 'tag']
+const MATCH_TYPES: MatchType[] = ['men', 'women', 'tag', 'tag6', 'tag8']
 
 /** Save files written before tag teams were replaced by pairs of wrestlers. */
 type LegacyTeams = Map<string, string[]>
@@ -79,6 +79,7 @@ function roster(value: unknown, teams: LegacyTeams): Roster {
   return {
     id: str(value.id),
     name: str(value.name),
+    owner: typeof value.owner === 'string' ? value.owner : '',
     wrestlers: arr(value.wrestlers).map(wrestler),
     champions: champions(value.champions, teams),
   }

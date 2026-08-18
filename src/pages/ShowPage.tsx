@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
-import { championInMatch, sideLabel } from '../simulate'
+import { championInMatch, sideLabel, SIDE_SIZE, titleKey } from '../simulate'
 import { championName } from '../lookup'
 import { allStipulations, BUILT_IN_STIPULATIONS } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
@@ -10,10 +10,14 @@ const TYPE_LABEL: Record<MatchType, string> = {
   men: "Men's singles",
   women: "Women's singles",
   tag: 'Tag team',
+  tag6: '6-man tag',
+  tag8: '8-man tag',
 }
 
 function entrantOptions(roster: Roster, type: MatchType) {
-  return type === 'tag' ? roster.wrestlers : roster.wrestlers.filter((w) => w.division === type)
+  return type === 'men' || type === 'women'
+    ? roster.wrestlers.filter((w) => w.division === type)
+    : roster.wrestlers
 }
 
 export default function ShowPage() {
@@ -58,13 +62,15 @@ export default function ShowPage() {
 
   const roster = homeRoster
   const filledSides = (match: Match) =>
-    match.sides.filter((s) => s.entrantIds.filter(Boolean).length >= (match.type === 'tag' ? 2 : 1)).length
+    match.sides.filter((s) => s.entrantIds.filter(Boolean).length >= SIDE_SIZE[match.type]).length
   const bookable = show.matches.some((m) => filledSides(m) >= 2)
 
   const stipulations = allStipulations(state)
 
   const titleWarning = (match: Match, sides: Side[]) => {
-    const champion = roster.champions[match.type]
+    const key = titleKey(match.type)
+    if (!key) return null
+    const champion = roster.champions[key]
     if (!champion) return <span className="muted">Vacant title — the winner claims it on a pinfall or submission.</span>
     if (championInMatch(champion, sides)) return null
     return (
@@ -80,7 +86,7 @@ export default function ShowPage() {
       match.stipulation && !stipulations.includes(match.stipulation)
         ? [...stipulations, match.stipulation]
         : stipulations
-    const slots = match.type === 'tag' ? [0, 1] : [0]
+    const slots = Array.from({ length: SIDE_SIZE[match.type] }, (_, slot) => slot)
     const emptySide: Side = { rosterId: roster.id, entrantIds: [] }
     const sides = match.sides.length >= 2 ? match.sides : [...match.sides, ...Array(2 - match.sides.length).fill(emptySide)]
 
@@ -117,15 +123,23 @@ export default function ShowPage() {
             ))}
           </select>
 
-          <label className="muted">
-            <input
-              type="checkbox"
-              checked={match.titleRosterId !== null}
-              onChange={(e) => updateMatch(show.id, match.id, { titleRosterId: e.target.checked ? roster.id : null })}
-            />{' '}
-            Title match
-          </label>
-          {match.titleRosterId && titleWarning(match, sides)}
+          {titleKey(match.type) ? (
+            <>
+              <label className="muted">
+                <input
+                  type="checkbox"
+                  checked={match.titleRosterId !== null}
+                  onChange={(e) =>
+                    updateMatch(show.id, match.id, { titleRosterId: e.target.checked ? roster.id : null })
+                  }
+                />{' '}
+                Title match
+              </label>
+              {match.titleRosterId && titleWarning(match, sides)}
+            </>
+          ) : (
+            <span className="muted">{TYPE_LABEL[match.type]} matches are non-title.</span>
+          )}
         </div>
 
         <div className="row">
@@ -174,7 +188,7 @@ export default function ShowPage() {
 
         <div className="row">
           <button className="secondary" onClick={() => addMatchSide(show.id, match.id)}>
-            {match.type === 'tag' ? 'Add team' : 'Add competitor'}
+            {SIDE_SIZE[match.type] > 1 ? 'Add team' : 'Add competitor'}
           </button>
         </div>
 

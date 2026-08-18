@@ -36,12 +36,18 @@ export function championInMatch(champion: ChampionRef | null, sides: Side[]): bo
   return sides.some((side) => side.entrantIds.some((id) => champion.entrantIds.includes(id)))
 }
 
-function championKey(type: MatchType): keyof Champions {
-  return type === 'men' ? 'men' : type === 'women' ? 'women' : 'tag'
+/** Wrestlers per side. The six- and eight-man tags are three and four a side. */
+export const SIDE_SIZE: Record<MatchType, number> = { men: 1, women: 1, tag: 2, tag6: 3, tag8: 4 }
+
+/** Only the three championship divisions can be defended; multi-man tags cannot. */
+export function titleKey(type: MatchType): keyof Champions | null {
+  return type === 'men' || type === 'women' || type === 'tag' ? type : null
 }
 
-function titleLabel(type: MatchType): string {
-  return type === 'men' ? "Men's Championship" : type === 'women' ? "Women's Championship" : 'Tag Team Championship'
+const TITLE_LABEL: Record<keyof Champions, string> = {
+  men: "Men's Championship",
+  women: "Women's Championship",
+  tag: 'Tag Team Championship',
 }
 
 export interface SimulationResult {
@@ -55,7 +61,7 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
   const working: LeagueState = { ...state, rosters }
 
   const matches: Match[] = show.matches.map((match) => {
-    const required = match.type === 'tag' ? 2 : 1
+    const required = SIDE_SIZE[match.type]
     const validIndices = match.sides
       .map((s, i) => (s.entrantIds.filter(Boolean).length >= required ? i : -1))
       .filter((i) => i >= 0)
@@ -63,7 +69,10 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
       return {
         ...match,
         winnerIndex: null,
-        summary: match.type === 'tag' ? 'Needs at least two teams of two' : 'Needs at least two competitors',
+        summary:
+          required > 1
+            ? `Needs at least two teams of ${required}`
+            : 'Needs at least two competitors',
       }
     }
 
@@ -73,12 +82,12 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
     const losers = validIndices.filter((i) => i !== winnerIndex).map((i) => sideLabel(working, match.sides[i]))
     let summary = `${sideLabel(working, winner)} ${finish.text} over ${losers.join(', ')}${stipulationClause(match.stipulation)}`
 
-    if (match.titleRosterId) {
+    const key = titleKey(match.type)
+    if (match.titleRosterId && key) {
       const titleRoster = rosters.find((r) => r.id === match.titleRosterId)
       if (titleRoster) {
-        const key = championKey(match.type)
         const current = titleRoster.champions[key]
-        const title = `${titleRoster.name} ${titleLabel(match.type)}`
+        const title = `${titleRoster.name} ${TITLE_LABEL[key]}`
         const contested = validIndices.map((i) => match.sides[i])
 
         if (current && !championInMatch(current, contested)) {

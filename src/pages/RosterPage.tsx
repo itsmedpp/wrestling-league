@@ -10,6 +10,7 @@ export default function RosterPage() {
   const {
     state,
     renameRoster,
+    setRosterOwner,
     addWrestler,
     updateWrestler,
     removeWrestler,
@@ -87,6 +88,14 @@ export default function RosterPage() {
       <div className="card">
         <h2>Roster name</h2>
         <input value={roster.name} onChange={(e) => renameRoster(roster.id, e.target.value)} />
+        <div className="row">
+          <label className="muted">Owner</label>
+          <input
+            value={roster.owner}
+            placeholder="Who runs this brand?"
+            onChange={(e) => setRosterOwner(roster.id, e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="card">
