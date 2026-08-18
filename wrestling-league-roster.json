@@ -109,7 +109,7 @@
         "men": {
           "rosterId": "nqjok98cmsxkhxeo",
           "entrantIds": [
-            "wgd8h6mfmsxwdl96"
+            "alc1idbpmsxki15d"
           ]
         },
         "women": {
@@ -231,7 +231,39 @@
         }
       ],
       "simulatedAt": "2026-08-18T01:04:09.274Z"
+    },
+    {
+      "id": "ayz7pvzbmsxzgp4t",
+      "rosterId": "nqjok98cmsxkhxeo",
+      "name": "September",
+      "matches": [
+        {
+          "id": "fimmz8abmsxzgrr7",
+          "type": "men",
+          "stipulation": "Submission Match",
+          "titleRosterId": "nqjok98cmsxkhxeo",
+          "sides": [
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "wgd8h6mfmsxwdl96"
+              ]
+            },
+            {
+              "rosterId": "nqjok98cmsxkhxeo",
+              "entrantIds": [
+                "alc1idbpmsxki15d"
+              ]
+            }
+          ],
+          "winnerIndex": 1,
+          "summary": "Cody Rhodes wins by submission over Jacob Fatu in a Submission Match and retains the Power Pro Wrestling Men's Championship"
+        }
+      ],
+      "simulatedAt": "2026-08-18T01:28:02.855Z"
     }
   ],
-  "stipulations": []
+  "stipulations": [
+    "Casket Match"
+  ]
 }
