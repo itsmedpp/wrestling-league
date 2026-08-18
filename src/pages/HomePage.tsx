@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championName } from '../lookup'
-import { downloadSaveFile, parseSaveFile } from '../saveFile'
 import {
   GITHUB_FILE_URL,
   GITHUB_PATH,
@@ -15,12 +14,9 @@ import {
 export default function HomePage() {
   const { state, addRoster, deleteRoster, replaceState } = useLeague()
   const [name, setName] = useState('')
-  const [selectedId, setSelectedId] = useState('')
-  const [saveMessage, setSaveMessage] = useState('')
   const [token, setToken] = useState(loadToken)
   const [githubMessage, setGithubMessage] = useState('')
   const [busy, setBusy] = useState(false)
-  const fileInput = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
 
   const create = () => {
@@ -33,21 +29,7 @@ export default function HomePage() {
 
   const remove = (rosterId: string, rosterName: string) => {
     if (!confirm(`Delete "${rosterName}" and all of its shows?`)) return
-    if (selectedId === rosterId) setSelectedId('')
     deleteRoster(rosterId)
-  }
-
-  const importFile = async (file: File) => {
-    try {
-      const imported = parseSaveFile(await file.text())
-      const counts = `${imported.rosters.length} rosters and ${imported.shows.length} shows`
-      if (!confirm(`Replace everything currently saved with ${counts} from "${file.name}"?`)) return
-      replaceState(imported)
-      setSelectedId('')
-      setSaveMessage(`Loaded ${counts}.`)
-    } catch (error) {
-      setSaveMessage(error instanceof Error ? error.message : 'Could not read that file.')
-    }
   }
 
   const pullFromGitHub = async () => {
@@ -58,7 +40,6 @@ export default function HomePage() {
       const counts = `${remote.rosters.length} rosters and ${remote.shows.length} shows`
       if (confirm(`Replace everything currently saved with ${counts} from GitHub?`)) {
         replaceState(remote)
-        setSelectedId('')
         setGithubMessage(`Loaded ${counts} from GitHub.`)
       }
     } catch (error) {
@@ -107,23 +88,6 @@ export default function HomePage() {
       </div>
 
       <div className="card">
-        <h2>Open a roster</h2>
-        <div className="row">
-          <select value={selectedId} onChange={(e) => setSelectedId(e.target.value)}>
-            <option value="">Select a roster…</option>
-            {state.rosters.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.name}
-              </option>
-            ))}
-          </select>
-          <button onClick={() => navigate(`/roster/${selectedId}`)} disabled={!selectedId}>
-            View roster
-          </button>
-        </div>
-      </div>
-
-      <div className="card">
         <h2>Rosters</h2>
         {state.rosters.length === 0 && <p className="muted">No rosters yet. Create one above.</p>}
         <ul className="list">
@@ -145,30 +109,6 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-      </div>
-
-      <div className="card">
-        <h2>Save file</h2>
-        <p className="muted">
-          Your league is stored in this browser only. Export a JSON file to back it up or share it, and
-          import it on another device or browser.
-        </p>
-        <div className="row">
-          <button onClick={() => downloadSaveFile(state)}>Export JSON</button>
-          <button onClick={() => fileInput.current?.click()}>Import JSON</button>
-          <input
-            ref={fileInput}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            onChange={(e) => {
-              const file = e.target.files?.[0]
-              e.target.value = ''
-              if (file) void importFile(file)
-            }}
-          />
-        </div>
-        {saveMessage && <p className="muted">{saveMessage}</p>}
       </div>
 
       <div className="card">
