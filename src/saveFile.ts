@@ -70,6 +70,7 @@ function roster(value: unknown, teams: LegacyTeams): Roster {
     id: str(value.id),
     name: str(value.name),
     owner: typeof value.owner === 'string' ? value.owner : '',
+    logo: typeof value.logo === 'string' ? value.logo : '',
     wrestlers: arr(value.wrestlers).map(wrestler),
     champions: champions(value.champions, teams),
   }
@@ -115,6 +116,7 @@ export function parseSaveFile(text: string): LeagueState {
     for (const [id, memberIds] of legacyTeams(entry)) teams.set(id, memberIds)
   }
   return {
+    leagueLogo: typeof parsed.leagueLogo === 'string' ? parsed.leagueLogo : '',
     rosters: rosters.map((r) => roster(r, teams)),
     shows: arr(parsed.shows).map((s) => show(s, teams)),
     stipulations:

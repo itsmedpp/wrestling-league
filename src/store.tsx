@@ -9,7 +9,7 @@ const STORAGE_KEY = 'wrestling-league-state-v1'
 
 const EMPTY_CHAMPIONS: Champions = { men: null, women: null, tag: null }
 
-const EMPTY_STATE: LeagueState = { rosters: [], shows: [], stipulations: [] }
+const EMPTY_STATE: LeagueState = { leagueLogo: '', rosters: [], shows: [], stipulations: [] }
 
 function newId(): string {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36)
@@ -30,6 +30,8 @@ interface LeagueActions {
   addRoster: (name: string) => Roster
   renameRoster: (rosterId: string, name: string) => void
   setRosterOwner: (rosterId: string, owner: string) => void
+  setRosterLogo: (rosterId: string, logo: string) => void
+  setLeagueLogo: (logo: string) => void
   deleteRoster: (rosterId: string) => void
   addWrestler: (rosterId: string, name: string, division: Division) => void
   updateWrestler: (rosterId: string, wrestlerId: string, name: string, division: Division) => void
@@ -91,6 +93,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           id: newId(),
           name,
           owner: '',
+          logo: '',
           wrestlers: [],
           champions: { ...EMPTY_CHAMPIONS },
         }
@@ -102,6 +105,12 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       },
       setRosterOwner(rosterId, owner) {
         updateRoster(rosterId, (r) => ({ ...r, owner }))
+      },
+      setRosterLogo(rosterId, logo) {
+        updateRoster(rosterId, (r) => ({ ...r, logo }))
+      },
+      setLeagueLogo(logo) {
+        setState((prev) => ({ ...prev, leagueLogo: logo }))
       },
       deleteRoster(rosterId) {
         setState((prev) => ({

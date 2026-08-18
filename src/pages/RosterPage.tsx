@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championName } from '../lookup'
+import LogoPicker from '../LogoPicker'
 import type { Champions, Division } from '../types'
 
 export default function RosterPage() {
@@ -11,6 +12,7 @@ export default function RosterPage() {
     state,
     renameRoster,
     setRosterOwner,
+    setRosterLogo,
     addWrestler,
     updateWrestler,
     removeWrestler,
@@ -96,6 +98,11 @@ export default function RosterPage() {
             onChange={(e) => setRosterOwner(roster.id, e.target.value)}
           />
         </div>
+        <LogoPicker
+          logo={roster.logo}
+          alt={`${roster.name} logo`}
+          onChange={(logo) => setRosterLogo(roster.id, logo)}
+        />
       </div>
 
       <div className="card">

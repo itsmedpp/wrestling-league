@@ -51,11 +51,15 @@ export interface Roster {
   id: string
   name: string
   owner: string
+  /** PNG data URL, or empty when the roster has no logo. */
+  logo: string
   wrestlers: Wrestler[]
   champions: Champions
 }
 
 export interface LeagueState {
+  /** PNG data URL for the whole league, or empty when there is none. */
+  leagueLogo: string
   rosters: Roster[]
   shows: Show[]
   /** Custom stipulations, offered alongside the built-in ones. */
