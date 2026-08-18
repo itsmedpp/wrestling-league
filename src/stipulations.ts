@@ -16,6 +16,10 @@ export const BUILT_IN_STIPULATIONS = [
   'Royal Rumble',
 ]
 
+export function sortStipulations(names: string[]): string[] {
+  return [...names].sort((a, b) => a.localeCompare(b))
+}
+
 export function allStipulations(state: LeagueState): string[] {
-  return [...BUILT_IN_STIPULATIONS, ...state.stipulations]
+  return sortStipulations([...BUILT_IN_STIPULATIONS, ...state.stipulations])
 }
