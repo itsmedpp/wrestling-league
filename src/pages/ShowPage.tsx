@@ -1,9 +1,8 @@
-import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championInMatch, sideLabel, SIDE_SIZE, titleKey } from '../simulate'
 import { championName, sortWrestlers } from '../lookup'
-import { allStipulations, BUILT_IN_STIPULATIONS, sortStipulations } from '../stipulations'
+import { allStipulations, sortStipulations } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
 
 const TYPE_LABEL: Record<MatchType, string> = {
@@ -34,11 +33,8 @@ export default function ShowPage() {
     setMatchSide,
     addMatchSide,
     removeMatchSide,
-    addStipulation,
-    removeStipulation,
     simulate,
   } = useLeague()
-  const [newStipulation, setNewStipulation] = useState('')
 
   const show = state.shows.find((s) => s.id === showId)
 
@@ -258,42 +254,6 @@ export default function ShowPage() {
           </ul>
         </div>
       )}
-
-      <div className="card">
-        <h2>Stipulations</h2>
-        <p className="muted">Add your own match types; they show up in every match's stipulation list.</p>
-        <div className="row">
-          <input
-            value={newStipulation}
-            placeholder="e.g. Casket Match"
-            onChange={(e) => setNewStipulation(e.target.value)}
-          />
-          <button
-            onClick={() => {
-              const name = newStipulation.trim()
-              if (!name) return
-              addStipulation(name)
-              setNewStipulation('')
-            }}
-          >
-            Add stipulation
-          </button>
-        </div>
-        {state.stipulations.length === 0 ? (
-          <p className="muted">Using the {BUILT_IN_STIPULATIONS.length} built-in stipulations.</p>
-        ) : (
-          <ul className="list">
-            {sortStipulations(state.stipulations).map((s) => (
-              <li key={s}>
-                <span>{s}</span>
-                <button className="danger" onClick={() => removeStipulation(s)}>
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
 
       <div className="card">
         <h2>{roster.name} champions</h2>

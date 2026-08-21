@@ -126,6 +126,16 @@ export default function HomePage() {
       </div>
 
       <div className="card">
+        <h2>Stipulations</h2>
+        <p className="muted">
+          {state.stipulationList.length} match stipulations are available when booking a show.
+        </p>
+        <button className="secondary" onClick={() => navigate('/stipulations')}>
+          Manage stipulations
+        </button>
+      </div>
+
+      <div className="card">
         <h2>GitHub sync</h2>
         <p className="muted">
           Shares one league through <a href={GITHUB_FILE_URL}>{GITHUB_PATH}</a> in the repo. Saving needs a

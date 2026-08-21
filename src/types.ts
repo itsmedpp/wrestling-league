@@ -62,6 +62,6 @@ export interface LeagueState {
   leagueLogo: string
   rosters: Roster[]
   shows: Show[]
-  /** Custom stipulations, offered alongside the built-in ones. */
-  stipulations: string[]
+  /** Every stipulation a match can be given; seeded with the built-in ones and fully editable. */
+  stipulationList: string[]
 }

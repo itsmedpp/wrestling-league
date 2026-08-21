@@ -5,6 +5,7 @@ import { LeagueProvider } from './store'
 import HomePage from './pages/HomePage'
 import RosterPage from './pages/RosterPage'
 import ShowPage from './pages/ShowPage'
+import StipulationsPage from './pages/StipulationsPage'
 import './styles.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<HomePage />} />
           <Route path="/roster/:rosterId" element={<RosterPage />} />
           <Route path="/show/:showId" element={<ShowPage />} />
+          <Route path="/stipulations" element={<StipulationsPage />} />
         </Routes>
       </HashRouter>
     </LeagueProvider>

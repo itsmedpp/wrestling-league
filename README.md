@@ -27,8 +27,10 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
   champions manually (the tag titles take any two names from the roster), and create shows.
 - **Show page** — rename the show by editing its title, book men's, women's, tag, 6-man tag, and 8-man tag matches between
   members of that show's roster (6- and 8-man tags are always non-title), give each match a stipulation
-  (Ladder Match, Steel Cage, and so on — add your own in the "Stipulations" card), flag a match as a
+  from the league's stipulation list, flag a match as a
   title match, then simulate the whole card. Title
   matches move the roster's belt to the winner, but only if the current champion was in the match and
   the finish was a pinfall or submission — count-outs and disqualifications never change a title. Rosters never mix:
   each one has its own wrestlers and its own three championships.
+- **Stipulations page** — reached from the main page; add or remove any stipulation, including the
+  built-in ones a new league starts with. The list is stored with the league, so it syncs too.

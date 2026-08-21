@@ -1,5 +1,6 @@
 import type { LeagueState } from './types'
 
+/** Seeded into a new league; they can be removed like any other stipulation. */
 export const BUILT_IN_STIPULATIONS = [
   'No Disqualification',
   'Steel Cage Match',
@@ -21,5 +22,5 @@ export function sortStipulations(names: string[]): string[] {
 }
 
 export function allStipulations(state: LeagueState): string[] {
-  return sortStipulations([...BUILT_IN_STIPULATIONS, ...state.stipulations])
+  return sortStipulations(state.stipulationList)
 }
