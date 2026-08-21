@@ -9,7 +9,12 @@ const STORAGE_KEY = 'wrestling-league-state-v1'
 
 const EMPTY_CHAMPIONS: Champions = { men: null, women: null, tag: null }
 
-const EMPTY_STATE: LeagueState = { leagueLogo: '', rosters: [], shows: [], stipulations: [] }
+const EMPTY_STATE: LeagueState = {
+  leagueLogo: '',
+  rosters: [],
+  shows: [],
+  stipulationList: [...BUILT_IN_STIPULATIONS],
+}
 
 function newId(): string {
   return Math.random().toString(36).slice(2, 10) + Date.now().toString(36)
@@ -212,13 +217,16 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       },
       addStipulation(name) {
         setState((prev) =>
-          prev.stipulations.includes(name) || BUILT_IN_STIPULATIONS.includes(name)
+          prev.stipulationList.includes(name)
             ? prev
-            : { ...prev, stipulations: [...prev.stipulations, name] },
+            : { ...prev, stipulationList: [...prev.stipulationList, name] },
         )
       },
       removeStipulation(name) {
-        setState((prev) => ({ ...prev, stipulations: prev.stipulations.filter((s) => s !== name) }))
+        setState((prev) => ({
+          ...prev,
+          stipulationList: prev.stipulationList.filter((s) => s !== name),
+        }))
       },
       simulate(showId) {
         setState((prev) => {

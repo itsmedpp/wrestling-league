@@ -1,3 +1,4 @@
+import { BUILT_IN_STIPULATIONS } from './stipulations'
 import type { Champions, ChampionRef, LeagueState, Match, MatchType, Roster, Show, Side, Wrestler } from './types'
 
 const MATCH_TYPES: MatchType[] = ['men', 'women', 'tag', 'tag6', 'tag8']
@@ -107,6 +108,15 @@ function show(value: unknown, teams: LegacyTeams): Show {
   }
 }
 
+/** Saves written before the list became editable only stored the custom additions. */
+function stipulationList(parsed: Record<string, unknown>): string[] {
+  if (parsed.stipulationList !== undefined) {
+    return arr(parsed.stipulationList).map(str).filter(Boolean)
+  }
+  const custom = parsed.stipulations === undefined ? [] : arr(parsed.stipulations).map(str).filter(Boolean)
+  return [...new Set([...BUILT_IN_STIPULATIONS, ...custom])]
+}
+
 export function parseSaveFile(text: string): LeagueState {
   const parsed: unknown = JSON.parse(text)
   if (!isRecord(parsed)) invalid()
@@ -119,7 +129,6 @@ export function parseSaveFile(text: string): LeagueState {
     leagueLogo: typeof parsed.leagueLogo === 'string' ? parsed.leagueLogo : '',
     rosters: rosters.map((r) => roster(r, teams)),
     shows: arr(parsed.shows).map((s) => show(s, teams)),
-    stipulations:
-      parsed.stipulations === undefined ? [] : arr(parsed.stipulations).map(str).filter(Boolean),
+    stipulationList: stipulationList(parsed),
   }
 }
