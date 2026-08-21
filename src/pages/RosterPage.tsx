@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
-import { championName } from '../lookup'
+import { championName, sortWrestlers } from '../lookup'
 import LogoPicker from '../LogoPicker'
 import type { Champions, Division } from '../types'
 
@@ -52,8 +52,9 @@ export default function RosterPage() {
   }
 
   const titleRow = (title: keyof Champions, label: string) => {
-    const options =
-      title === 'tag' ? roster.wrestlers : roster.wrestlers.filter((w) => w.division === title)
+    const options = sortWrestlers(
+      title === 'tag' ? roster.wrestlers : roster.wrestlers.filter((w) => w.division === title),
+    )
     const held = roster.champions[title]?.entrantIds ?? []
     const slots = title === 'tag' ? [0, 1] : [0]
     const setSlot = (slot: number, id: string) => {
@@ -134,7 +135,7 @@ export default function RosterPage() {
           </button>
         </div>
         <ul className="list">
-          {roster.wrestlers.map((w) => (
+          {sortWrestlers(roster.wrestlers).map((w) => (
             <li key={w.id}>
               <input value={w.name} onChange={(e) => updateWrestler(roster.id, w.id, e.target.value, w.division)} />
               <select
