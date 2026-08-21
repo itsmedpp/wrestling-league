@@ -88,17 +88,27 @@ export default function RosterPage() {
         </button>
       </div>
 
-      <div className="card">
-        <h2>Roster name</h2>
-        <input value={roster.name} onChange={(e) => renameRoster(roster.id, e.target.value)} />
-        <div className="row">
-          <label className="muted">Owner</label>
+      <div className="row page-header">
+        {roster.logo && <img className="logo logo-large" src={roster.logo} alt={`${roster.name} logo`} />}
+        <div className="grow">
           <input
+            className="page-title"
+            value={roster.name}
+            aria-label="Roster name"
+            onChange={(e) => renameRoster(roster.id, e.target.value)}
+          />
+          <input
+            className="page-subtitle"
             value={roster.owner}
+            aria-label="Roster owner"
             placeholder="Who runs this brand?"
             onChange={(e) => setRosterOwner(roster.id, e.target.value)}
           />
         </div>
+      </div>
+
+      <div className="card">
+        <h2>Roster logo</h2>
         <LogoPicker
           logo={roster.logo}
           alt={`${roster.name} logo`}

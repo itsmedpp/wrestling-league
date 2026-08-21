@@ -209,12 +209,12 @@ export default function ShowPage() {
       </div>
 
       <input
-        className="show-title"
+        className="page-title"
         value={show.name}
         aria-label="Show name"
         onChange={(e) => renameShow(show.id, e.target.value)}
       />
-      <div className="row show-roster">
+      <div className="row page-header">
         {roster.logo && <img className="logo" src={roster.logo} alt={`${roster.name} logo`} />}
         <div>
           <strong>{roster.name}</strong>
