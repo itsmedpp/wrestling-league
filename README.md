@@ -25,7 +25,7 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
   Logos are downscaled to 256px and stored in the league data itself, so they sync with everything else.
 - **Roster page** — rename the roster, set its owner and logo, add/edit/remove wrestlers (men's or women's division), set
   champions manually (the tag titles take any two names from the roster), and create shows.
-- **Show page** — rename the show, book men's, women's, tag, 6-man tag, and 8-man tag matches between
+- **Show page** — rename the show by editing its title, book men's, women's, tag, 6-man tag, and 8-man tag matches between
   members of that show's roster (6- and 8-man tags are always non-title), give each match a stipulation
   (Ladder Match, Steel Cage, and so on — add your own in the "Stipulations" card), flag a match as a
   title match, then simulate the whole card. Title

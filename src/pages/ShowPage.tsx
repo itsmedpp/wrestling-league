@@ -212,7 +212,12 @@ export default function ShowPage() {
         )}
       </div>
 
-      <h1 className="show-title">{show.name}</h1>
+      <input
+        className="show-title"
+        value={show.name}
+        aria-label="Show name"
+        onChange={(e) => renameShow(show.id, e.target.value)}
+      />
       <div className="row show-roster">
         {roster.logo && <img className="logo" src={roster.logo} alt={`${roster.name} logo`} />}
         <div>
@@ -221,24 +226,12 @@ export default function ShowPage() {
         </div>
       </div>
 
-      <div className="card">
-        <h2>Show name</h2>
-        <input value={show.name} onChange={(e) => renameShow(show.id, e.target.value)} />
-      </div>
+      {show.matches.map(renderMatch)}
 
       <div className="card">
-        <h2>Card</h2>
-        <div className="row">
-          {(Object.keys(TYPE_LABEL) as MatchType[]).map((t) => (
-            <button key={t} className="secondary" onClick={() => addMatch(show.id, t)}>
-              Add {TYPE_LABEL[t].toLowerCase()} match
-            </button>
-          ))}
-        </div>
+        <button onClick={() => addMatch(show.id, 'men')}>Add match</button>
         {show.matches.length === 0 && <p className="muted">No matches booked yet.</p>}
       </div>
-
-      {show.matches.map(renderMatch)}
 
       <div className="card">
         <button onClick={() => simulate(show.id)} disabled={!bookable}>
