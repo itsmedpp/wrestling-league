@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championInMatch, sideLabel, SIDE_SIZE, titleKey } from '../simulate'
-import { championName } from '../lookup'
+import { championName, sortWrestlers } from '../lookup'
 import { allStipulations, BUILT_IN_STIPULATIONS, sortStipulations } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
 
@@ -15,9 +15,11 @@ const TYPE_LABEL: Record<MatchType, string> = {
 }
 
 function entrantOptions(roster: Roster, type: MatchType) {
-  return type === 'men' || type === 'women'
-    ? roster.wrestlers.filter((w) => w.division === type)
-    : roster.wrestlers
+  return sortWrestlers(
+    type === 'men' || type === 'women'
+      ? roster.wrestlers.filter((w) => w.division === type)
+      : roster.wrestlers,
+  )
 }
 
 export default function ShowPage() {
@@ -208,6 +210,15 @@ export default function ShowPage() {
             ← {homeRoster.name}
           </button>
         )}
+      </div>
+
+      <h1 className="show-title">{show.name}</h1>
+      <div className="row show-roster">
+        {roster.logo && <img className="logo" src={roster.logo} alt={`${roster.name} logo`} />}
+        <div>
+          <strong>{roster.name}</strong>
+          {roster.owner && <div className="muted">Owner: {roster.owner}</div>}
+        </div>
       </div>
 
       <div className="card">
