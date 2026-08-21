@@ -151,9 +151,19 @@ ul.list li:last-child {
   font-size: 14px;
 }
 
-.show-title {
+input.show-title {
   font-size: 34px;
-  margin: 0 0 8px;
+  font-weight: 700;
+  width: 100%;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  background: transparent;
+  border-color: transparent;
+}
+
+input.show-title:hover,
+input.show-title:focus {
+  border-color: #2b3346;
 }
 
 .show-roster {
