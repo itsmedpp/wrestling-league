@@ -151,23 +151,41 @@ ul.list li:last-child {
   font-size: 14px;
 }
 
-input.show-title {
-  font-size: 34px;
-  font-weight: 700;
+input.page-title,
+input.page-subtitle {
   width: 100%;
   padding: 4px 8px;
-  margin-bottom: 8px;
   background: transparent;
   border-color: transparent;
 }
 
-input.show-title:hover,
-input.show-title:focus {
+input.page-title {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+input.page-subtitle {
+  font-size: 18px;
+  color: var(--muted);
+}
+
+input.page-title:hover,
+input.page-title:focus,
+input.page-subtitle:hover,
+input.page-subtitle:focus {
   border-color: #2b3346;
 }
 
-.show-roster {
+.page-header {
   margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
 }
 
 .logo {
@@ -181,6 +199,7 @@ input.show-title:focus {
 .logo-large {
   width: 96px;
   height: 96px;
+  flex: none;
 }
 
 .title-badge {
