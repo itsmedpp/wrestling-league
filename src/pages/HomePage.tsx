@@ -79,28 +79,8 @@ export default function HomePage() {
       </div>
 
       <div className="card">
-        <h2>League logo</h2>
-        <LogoPicker logo={state.leagueLogo} alt="League logo" onChange={setLeagueLogo} />
-      </div>
-
-      <div className="card">
-        <h2>Create a roster</h2>
-        <div className="row">
-          <input
-            value={name}
-            placeholder="Roster name"
-            onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && create()}
-          />
-          <button onClick={create} disabled={!name.trim()}>
-            Add roster
-          </button>
-        </div>
-      </div>
-
-      <div className="card">
         <h2>Rosters</h2>
-        {state.rosters.length === 0 && <p className="muted">No rosters yet. Create one above.</p>}
+        {state.rosters.length === 0 && <p className="muted">No rosters yet. Create one below.</p>}
         <ul className="list">
           {state.rosters.map((roster) => (
             <li key={roster.id}>
@@ -126,6 +106,21 @@ export default function HomePage() {
       </div>
 
       <div className="card">
+        <h2>Create a roster</h2>
+        <div className="row">
+          <input
+            value={name}
+            placeholder="Roster name"
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && create()}
+          />
+          <button onClick={create} disabled={!name.trim()}>
+            Add roster
+          </button>
+        </div>
+      </div>
+
+      <div className="card">
         <h2>Roster pool</h2>
         <p className="muted">
           {state.pool.length} names league rosters can draw from, seeded from the WWE, NXT, AEW, and TNA
@@ -144,6 +139,11 @@ export default function HomePage() {
         <button className="secondary" onClick={() => navigate('/stipulations')}>
           Manage stipulations
         </button>
+      </div>
+
+      <div className="card">
+        <h2>League logo</h2>
+        <LogoPicker logo={state.leagueLogo} alt="League logo" onChange={setLeagueLogo} />
       </div>
 
       <div className="card">
