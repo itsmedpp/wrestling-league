@@ -216,6 +216,12 @@ input.page-subtitle:focus {
   font-weight: 600;
 }
 
+.stars {
+  color: #f5c542;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .link-button {
   background: none;
   color: var(--accent);
