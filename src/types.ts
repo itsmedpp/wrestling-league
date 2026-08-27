@@ -9,6 +9,15 @@ export interface Wrestler {
   division: Division
 }
 
+/** A name in the shared pool that league rosters draw from. */
+export interface PoolWrestler {
+  id: string
+  name: string
+  /** Real-life promotion such as "WWE" or "AEW". */
+  promotion: string
+  division: Division
+}
+
 /** A champion: one wrestler for singles titles, two for the tag titles. */
 export interface ChampionRef {
   rosterId: string
@@ -64,4 +73,6 @@ export interface LeagueState {
   shows: Show[]
   /** Every stipulation a match can be given; seeded with the built-in ones and fully editable. */
   stipulationList: string[]
+  /** Names available to every league roster; seeded from the real WWE/NXT/AEW/TNA rosters. */
+  pool: PoolWrestler[]
 }

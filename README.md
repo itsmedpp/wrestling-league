@@ -23,7 +23,10 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
   the repo (a fine-grained token with Contents: Read and write is enough); the token is kept in this
   browser's `localStorage` and never committed. While the repo is private, loading needs the token too.
   Logos are downscaled to 256px and stored in the league data itself, so they sync with everything else.
-- **Roster page** — rename the roster, set its owner and logo, add/edit/remove wrestlers (men's or women's division), set
+- **Roster pool page** — reached from the main page; the shared list of names (with promotion and
+  division) that league rosters draw from, seeded from the WWE, NXT, AEW, and TNA rosters and freely
+  editable. It is stored with the league, so it syncs too.
+- **Roster page** — rename the roster, set its owner and logo, add wrestlers by picking them from the roster pool, remove them, set
   champions manually (the tag titles take any two names from the roster), and create shows.
 - **Show page** — rename the show by editing its title, book men's, women's, tag, 6-man tag, and 8-man tag matches between
   members of that show's roster (6- and 8-man tags are always non-title), give each match a stipulation

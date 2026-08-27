@@ -1,5 +1,17 @@
+import { seedPool } from './pool'
 import { BUILT_IN_STIPULATIONS } from './stipulations'
-import type { Champions, ChampionRef, LeagueState, Match, MatchType, Roster, Show, Side, Wrestler } from './types'
+import type {
+  Champions,
+  ChampionRef,
+  LeagueState,
+  Match,
+  MatchType,
+  PoolWrestler,
+  Roster,
+  Show,
+  Side,
+  Wrestler,
+} from './types'
 
 const MATCH_TYPES: MatchType[] = ['men', 'women', 'tag', 'tag6', 'tag8']
 
@@ -53,6 +65,16 @@ function wrestler(value: unknown): Wrestler {
   if (!isRecord(value)) invalid()
   const division = value.division === 'women' ? 'women' : 'men'
   return { id: str(value.id), name: str(value.name), division }
+}
+
+function poolWrestler(value: unknown): PoolWrestler {
+  if (!isRecord(value)) invalid()
+  return {
+    id: str(value.id),
+    name: str(value.name),
+    promotion: typeof value.promotion === 'string' ? value.promotion : '',
+    division: value.division === 'women' ? 'women' : 'men',
+  }
 }
 
 function legacyTeams(value: unknown): LegacyTeams {
@@ -130,5 +152,6 @@ export function parseSaveFile(text: string): LeagueState {
     rosters: rosters.map((r) => roster(r, teams)),
     shows: arr(parsed.shows).map((s) => show(s, teams)),
     stipulationList: stipulationList(parsed),
+    pool: parsed.pool === undefined ? seedPool() : arr(parsed.pool).map(poolWrestler),
   }
 }
