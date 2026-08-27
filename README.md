@@ -34,6 +34,8 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
   title match, then simulate the whole card. Title
   matches move the roster's belt to the winner, but only if the current champion was in the match and
   the finish was a pinfall or submission — count-outs and disqualifications never change a title. Rosters never mix:
-  each one has its own wrestlers and its own three championships.
+  each one has its own wrestlers and its own three championships. Matches can be reordered with the
+  arrow buttons and one can be flagged as the main event; simulating writes a multi-sentence recap and
+  a 1-to-5 star rating (half stars included) for every match; the rating can be overridden by hand.
 - **Stipulations page** — reached from the main page; add or remove any stipulation, including the
   built-in ones a new league starts with. The list is stored with the league, so it syncs too.

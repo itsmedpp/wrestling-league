@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
-import { championInMatch, sideLabel, SIDE_SIZE, titleKey } from '../simulate'
+import { championInMatch, RATINGS, sideLabel, SIDE_SIZE, starLabel, titleKey } from '../simulate'
 import { championName, sortWrestlers } from '../lookup'
 import { allStipulations, sortStipulations } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
@@ -33,6 +33,8 @@ export default function ShowPage() {
     setMatchSide,
     addMatchSide,
     removeMatchSide,
+    moveMatch,
+    setMainEvent,
     simulate,
   } = useLeague()
 
@@ -94,10 +96,40 @@ export default function ShowPage() {
           <h3>
             Match {index + 1} · {TYPE_LABEL[match.type]}
             {match.stipulation && ` · ${match.stipulation}`}
+            {show.mainEventId === match.id && ' · Main event'}
           </h3>
-          <button className="danger" onClick={() => removeMatch(show.id, match.id)}>
-            Remove match
-          </button>
+          <div className="row">
+            <button
+              className="secondary"
+              aria-label="Move match up"
+              disabled={index === 0}
+              onClick={() => moveMatch(show.id, match.id, -1)}
+            >
+              ↑
+            </button>
+            <button
+              className="secondary"
+              aria-label="Move match down"
+              disabled={index === show.matches.length - 1}
+              onClick={() => moveMatch(show.id, match.id, 1)}
+            >
+              ↓
+            </button>
+            <button className="danger" onClick={() => removeMatch(show.id, match.id)}>
+              Remove match
+            </button>
+          </div>
+        </div>
+
+        <div className="row">
+          <label className="muted">
+            <input
+              type="checkbox"
+              checked={show.mainEventId === match.id}
+              onChange={(e) => setMainEvent(show.id, e.target.checked ? match.id : null)}
+            />{' '}
+            Main event
+          </label>
         </div>
 
         <div className="row">
@@ -190,7 +222,29 @@ export default function ShowPage() {
           </button>
         </div>
 
-        {match.summary && <p className="winner">{match.summary}</p>}
+        {match.summary && (
+          <>
+            <div className="row">
+              <label className="muted">Star rating</label>
+              <select
+                value={match.rating ?? ''}
+                onChange={(e) =>
+                  updateMatch(show.id, match.id, {
+                    rating: e.target.value ? Number(e.target.value) : null,
+                  })
+                }
+              >
+                <option value="">Unrated</option>
+                {RATINGS.map((r) => (
+                  <option key={r} value={r}>
+                    {starLabel(r)} ({r.toFixed(1)})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <p className="winner">{match.summary}</p>
+          </>
+        )}
       </div>
     )
   }
@@ -245,8 +299,16 @@ export default function ShowPage() {
             {show.matches.map((match, i) => (
               <li key={match.id}>
                 <span>
-                  <strong>Match {i + 1}:</strong>{' '}
+                  <strong>
+                    {show.mainEventId === match.id ? 'Main event' : `Match ${i + 1}`}:
+                  </strong>{' '}
                   {match.sides.map((s) => sideLabel(state, s)).join(' vs ') || 'No competitors'}
+                  {match.rating !== null && (
+                    <span className="stars" title={`${match.rating.toFixed(1)} stars`}>
+                      {' '}
+                      {starLabel(match.rating)}
+                    </span>
+                  )}
                   <div className="muted">{match.summary ?? 'Not simulated'}</div>
                 </span>
               </li>

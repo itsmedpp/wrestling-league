@@ -10,6 +10,58 @@ const FINISHES: { text: string; decisive: boolean }[] = [
   { text: 'wins by disqualification', decisive: false },
 ]
 
+const OPENERS = [
+  'The bell rings and %L takes control early, working the crowd into it.',
+  '%W and %L trade holds to open, neither able to gain an edge.',
+  '%L jumps %W before the bell and the fight spills out to ringside.',
+  'A feeling-out process opens things up until %W lands the first big strike.',
+  '%L grounds %W with a long submission hold to slow the pace down.',
+]
+
+const MIDDLES = [
+  '%W fights up out of the heat and starts stacking near falls.',
+  'Both sides empty the tank%S, and the referee loses control for a stretch.',
+  'A miscommunication costs %L, but they cut %W off again on the floor.',
+  '%L kicks out of everything %W has, and the crowd bites on every cover.',
+  'The pace picks up with a run of counters, ending with %W surviving a huge dive.',
+]
+
+const NEAR_FALLS = [
+  '%L comes within a breath of the win off a desperation counter.',
+  'The referee counts two and a half on %W before %L powers out.',
+  'A referee bump nearly changes everything, but the official is back up in time.',
+  '%L hits their finish clean and %W somehow gets a shoulder up.',
+]
+
+function pick<T>(list: T[]): T {
+  return list[Math.floor(Math.random() * list.length)]
+}
+
+function fill(template: string, winner: string, loser: string, stipulation: string): string {
+  return template
+    .replace(/%W/g, winner)
+    .replace(/%L/g, loser)
+    .replace(/%S/g, stipulation && stipulation !== 'Standard Match' ? ` in the ${stipulation}` : '')
+}
+
+/** Rating from 1 to 5 in half-star steps; titles, stipulations, and the main event push it up. */
+function rateMatch(match: Match, mainEvent: boolean): number {
+  const bonus =
+    (match.titleRosterId ? 0.5 : 0) +
+    (mainEvent ? 0.5 : 0) +
+    (match.stipulation && match.stipulation !== 'Standard Match' ? 0.5 : 0)
+  const base = 1.5 + Math.floor(Math.random() * 6) * 0.5
+  return Math.min(5, Math.max(1, base + bonus))
+}
+
+/** Every selectable star rating, 1 to 5 in half-star steps. */
+export const RATINGS: number[] = Array.from({ length: 9 }, (_, i) => 1 + i * 0.5)
+
+/** "★★★½" for 3.5. */
+export function starLabel(rating: number): string {
+  return '★'.repeat(Math.floor(rating)) + (rating % 1 ? '½' : '')
+}
+
 export function sideLabel(state: LeagueState, side: Side): string {
   const roster = state.rosters.find((r) => r.id === side.rosterId)
   const names = side.entrantIds
@@ -69,6 +121,7 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
       return {
         ...match,
         winnerIndex: null,
+        rating: null,
         summary:
           required > 1
             ? `Needs at least two teams of ${required}`
@@ -80,7 +133,15 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
     const winner = match.sides[winnerIndex]
     const finish = FINISHES[Math.floor(Math.random() * FINISHES.length)]
     const losers = validIndices.filter((i) => i !== winnerIndex).map((i) => sideLabel(working, match.sides[i]))
-    let summary = `${sideLabel(working, winner)} ${finish.text} over ${losers.join(', ')}${stipulationClause(match.stipulation)}`
+    const winnerName = sideLabel(working, winner)
+    const loserNames = losers.join(', ')
+    const mainEvent = match.id === show.mainEventId
+
+    const story = [OPENERS, MIDDLES, NEAR_FALLS]
+      .map((templates) => fill(pick(templates), winnerName, loserNames, match.stipulation))
+      .join(' ')
+    const opening = mainEvent ? `In the main event, ${winnerName} meets ${loserNames}. ` : ''
+    let finishLine = `${winnerName} ${finish.text} over ${loserNames}${stipulationClause(match.stipulation)}`
 
     const key = titleKey(match.type)
     if (match.titleRosterId && key) {
@@ -91,19 +152,21 @@ export function simulateShow(state: LeagueState, show: Show): SimulationResult {
         const contested = validIndices.map((i) => match.sides[i])
 
         if (current && !championInMatch(current, contested)) {
-          summary += `. The ${title} was not on the line: ${sideLabel(working, current)} was not in the match`
+          finishLine += `. The ${title} was not on the line: ${sideLabel(working, current)} was not in the match`
         } else if (sameSide(current, winner)) {
-          summary += ` and retains the ${title}`
+          finishLine += ` and retains the ${title}`
         } else if (!finish.decisive) {
-          summary += `, but the ${title} does not change hands on a ${finish.text.replace('wins by ', '')}`
+          finishLine += `, but the ${title} does not change hands on a ${finish.text.replace('wins by ', '')}`
         } else {
           titleRoster.champions[key] = { rosterId: winner.rosterId, entrantIds: [...winner.entrantIds] }
-          summary += ` and wins the ${current ? title : `vacant ${title}`}`
+          finishLine += ` and wins the ${current ? title : `vacant ${title}`}`
         }
       }
     }
 
-    return { ...match, winnerIndex, summary }
+    const summary = `${opening}${story} ${finishLine}.`
+
+    return { ...match, winnerIndex, summary, rating: rateMatch(match, mainEvent) }
   })
 
   return {

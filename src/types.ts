@@ -46,6 +46,8 @@ export interface Match {
   sides: Side[]
   winnerIndex: number | null
   summary: string | null
+  /** Star rating from 1 to 5 in half-star steps, or null before the show is simulated. */
+  rating: number | null
 }
 
 export interface Show {
@@ -53,6 +55,8 @@ export interface Show {
   rosterId: string
   name: string
   matches: Match[]
+  /** The match billed as the main event, or null when the show has none. */
+  mainEventId: string | null
   simulatedAt: string | null
 }
 

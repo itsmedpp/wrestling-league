@@ -116,6 +116,7 @@ function match(value: unknown, teams: LegacyTeams): Match {
     sides: arr(value.sides).map((s) => side(s, teams)),
     winnerIndex: typeof value.winnerIndex === 'number' ? value.winnerIndex : null,
     summary: typeof value.summary === 'string' ? value.summary : null,
+    rating: typeof value.rating === 'number' ? value.rating : null,
   }
 }
 
@@ -126,6 +127,7 @@ function show(value: unknown, teams: LegacyTeams): Show {
     rosterId: str(value.rosterId),
     name: str(value.name),
     matches: arr(value.matches).map((m) => match(m, teams)),
+    mainEventId: typeof value.mainEventId === 'string' ? value.mainEventId : null,
     simulatedAt: typeof value.simulatedAt === 'string' ? value.simulatedAt : null,
   }
 }

@@ -50,6 +50,8 @@ interface LeagueActions {
   setMatchSide: (showId: string, matchId: string, index: number, side: Side | null) => void
   addMatchSide: (showId: string, matchId: string) => void
   removeMatchSide: (showId: string, matchId: string, index: number) => void
+  moveMatch: (showId: string, matchId: string, offset: number) => void
+  setMainEvent: (showId: string, matchId: string | null) => void
   addPoolWrestler: (name: string, promotion: string, division: Division) => void
   removePoolWrestler: (poolId: string) => void
   addStipulation: (name: string) => void
@@ -158,7 +160,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
         }))
       },
       addShow(rosterId, name) {
-        const show: Show = { id: newId(), rosterId, name, matches: [], simulatedAt: null }
+        const show: Show = { id: newId(), rosterId, name, matches: [], mainEventId: null, simulatedAt: null }
         setState((prev) => ({ ...prev, shows: [...prev.shows, show] }))
         return show
       },
@@ -181,6 +183,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
               sides: [],
               winnerIndex: null,
               summary: null,
+              rating: null,
             },
           ],
         }))
@@ -189,7 +192,25 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
         updateMatchIn(showId, matchId, (m) => ({ ...m, ...patch }))
       },
       removeMatch(showId, matchId) {
-        updateShow(showId, (show) => ({ ...show, matches: show.matches.filter((m) => m.id !== matchId) }))
+        updateShow(showId, (show) => ({
+          ...show,
+          matches: show.matches.filter((m) => m.id !== matchId),
+          mainEventId: show.mainEventId === matchId ? null : show.mainEventId,
+        }))
+      },
+      moveMatch(showId, matchId, offset) {
+        updateShow(showId, (show) => {
+          const from = show.matches.findIndex((m) => m.id === matchId)
+          const to = from + offset
+          if (from < 0 || to < 0 || to >= show.matches.length) return show
+          const matches = [...show.matches]
+          const [moved] = matches.splice(from, 1)
+          matches.splice(to, 0, moved)
+          return { ...show, matches }
+        })
+      },
+      setMainEvent(showId, matchId) {
+        updateShow(showId, (show) => ({ ...show, mainEventId: matchId }))
       },
       setMatchSide(showId, matchId, index, side) {
         updateMatchIn(showId, matchId, (m) => {
