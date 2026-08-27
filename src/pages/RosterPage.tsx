@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championName, sortWrestlers } from '../lookup'
+import { sortPool } from '../pool'
 import LogoPicker from '../LogoPicker'
 import type { Champions, Division } from '../types'
 
@@ -22,8 +23,7 @@ export default function RosterPage() {
   } = useLeague()
 
   const roster = state.rosters.find((r) => r.id === rosterId)
-  const [wrestlerName, setWrestlerName] = useState('')
-  const [division, setDivision] = useState<Division>('men')
+  const [poolId, setPoolId] = useState('')
   const [showName, setShowName] = useState('')
 
   if (!roster) {
@@ -37,11 +37,14 @@ export default function RosterPage() {
 
   const shows = state.shows.filter((s) => s.rosterId === roster.id)
 
+  const taken = new Set(roster.wrestlers.map((w) => w.name.toLowerCase()))
+  const available = sortPool(state.pool).filter((p) => !taken.has(p.name.toLowerCase()))
+
   const create = () => {
-    const trimmed = wrestlerName.trim()
-    if (!trimmed) return
-    addWrestler(roster.id, trimmed, division)
-    setWrestlerName('')
+    const pick = state.pool.find((p) => p.id === poolId)
+    if (!pick) return
+    addWrestler(roster.id, pick.name, pick.division)
+    setPoolId('')
   }
 
   const createShow = () => {
@@ -130,18 +133,19 @@ export default function RosterPage() {
       <div className="card">
         <h2>Wrestlers</h2>
         <div className="row">
-          <input
-            value={wrestlerName}
-            placeholder="Wrestler name"
-            onChange={(e) => setWrestlerName(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && create()}
-          />
-          <select value={division} onChange={(e) => setDivision(e.target.value as Division)}>
-            <option value="men">Men's</option>
-            <option value="women">Women's</option>
+          <select value={poolId} onChange={(e) => setPoolId(e.target.value)}>
+            <option value="">Pick from the roster pool…</option>
+            {available.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name} · {p.promotion || 'Unaffiliated'} · {p.division === 'men' ? "Men's" : "Women's"}
+              </option>
+            ))}
           </select>
-          <button onClick={create} disabled={!wrestlerName.trim()}>
+          <button onClick={create} disabled={!poolId}>
             Add
+          </button>
+          <button className="secondary" onClick={() => navigate('/pool')}>
+            Manage pool
           </button>
         </div>
         <ul className="list">

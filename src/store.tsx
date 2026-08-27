@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react'
 import { simulateShow } from './simulate'
 import { parseSaveFile } from './saveFile'
+import { newId } from './id'
+import { seedPool } from './pool'
 import { BUILT_IN_STIPULATIONS } from './stipulations'
 import type { Champions, Division, LeagueState, Match, MatchType, Roster, Show, Side } from './types'
 
@@ -14,10 +16,7 @@ const EMPTY_STATE: LeagueState = {
   rosters: [],
   shows: [],
   stipulationList: [...BUILT_IN_STIPULATIONS],
-}
-
-function newId(): string {
-  return Math.random().toString(36).slice(2, 10) + Date.now().toString(36)
+  pool: seedPool(),
 }
 
 function loadState(): LeagueState {
@@ -51,6 +50,8 @@ interface LeagueActions {
   setMatchSide: (showId: string, matchId: string, index: number, side: Side | null) => void
   addMatchSide: (showId: string, matchId: string) => void
   removeMatchSide: (showId: string, matchId: string, index: number) => void
+  addPoolWrestler: (name: string, promotion: string, division: Division) => void
+  removePoolWrestler: (poolId: string) => void
   addStipulation: (name: string) => void
   removeStipulation: (name: string) => void
   simulate: (showId: string) => void
@@ -214,6 +215,16 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           winnerIndex: null,
           summary: null,
         }))
+      },
+      addPoolWrestler(name, promotion, division) {
+        setState((prev) =>
+          prev.pool.some((p) => p.name.toLowerCase() === name.toLowerCase())
+            ? prev
+            : { ...prev, pool: [...prev.pool, { id: newId(), name, promotion, division }] },
+        )
+      },
+      removePoolWrestler(poolId) {
+        setState((prev) => ({ ...prev, pool: prev.pool.filter((p) => p.id !== poolId) }))
       },
       addStipulation(name) {
         setState((prev) =>

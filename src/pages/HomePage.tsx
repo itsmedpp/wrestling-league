@@ -126,6 +126,17 @@ export default function HomePage() {
       </div>
 
       <div className="card">
+        <h2>Roster pool</h2>
+        <p className="muted">
+          {state.pool.length} names league rosters can draw from, seeded from the WWE, NXT, AEW, and TNA
+          rosters.
+        </p>
+        <button className="secondary" onClick={() => navigate('/pool')}>
+          Manage roster pool
+        </button>
+      </div>
+
+      <div className="card">
         <h2>Stipulations</h2>
         <p className="muted">
           {state.stipulationList.length} match stipulations are available when booking a show.
