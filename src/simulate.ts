@@ -1,4 +1,4 @@
-import type { Champions, ChampionRef, LeagueState, Match, MatchType, Show, Side } from './types'
+import type { Champions, ChampionRef, League, Match, MatchType, Show, Side } from './types'
 
 /** `decisive` finishes are pinfalls and submissions — the only ways a title changes hands. */
 const FINISHES: { text: string; decisive: boolean }[] = [
@@ -62,8 +62,8 @@ export function starLabel(rating: number): string {
   return '★'.repeat(Math.floor(rating)) + (rating % 1 ? '½' : '')
 }
 
-export function sideLabel(state: LeagueState, side: Side): string {
-  const roster = state.rosters.find((r) => r.id === side.rosterId)
+export function sideLabel(league: League, side: Side): string {
+  const roster = league.rosters.find((r) => r.id === side.rosterId)
   const names = side.entrantIds
     .map((id) => roster?.wrestlers.find((w) => w.id === id)?.name ?? 'Unknown')
     .filter((name) => name !== 'Unknown')
@@ -104,13 +104,13 @@ const TITLE_LABEL: Record<keyof Champions, string> = {
 
 export interface SimulationResult {
   show: Show
-  rosters: LeagueState['rosters']
+  rosters: League['rosters']
 }
 
 /** Picks winners for every match in the show and applies any title changes. */
-export function simulateShow(state: LeagueState, show: Show): SimulationResult {
-  const rosters = state.rosters.map((r) => ({ ...r, champions: { ...r.champions } }))
-  const working: LeagueState = { ...state, rosters }
+export function simulateShow(league: League, show: Show): SimulationResult {
+  const rosters = league.rosters.map((r) => ({ ...r, champions: { ...r.champions } }))
+  const working: League = { ...league, rosters }
 
   const matches: Match[] = show.matches.map((match) => {
     const required = SIDE_SIZE[match.type]

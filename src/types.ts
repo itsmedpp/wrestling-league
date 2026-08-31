@@ -70,13 +70,20 @@ export interface Roster {
   champions: Champions
 }
 
-export interface LeagueState {
-  /** PNG data URL for the whole league, or empty when there is none. */
-  leagueLogo: string
+/** One promotion: its own rosters, shows, champions, and logo. Leagues never mix. */
+export interface League {
+  id: string
+  name: string
+  /** PNG data URL for the league, or empty when there is none. */
+  logo: string
   rosters: Roster[]
   shows: Show[]
+}
+
+export interface LeagueState {
+  leagues: League[]
   /** Every stipulation a match can be given; seeded with the built-in ones and fully editable. */
   stipulationList: string[]
-  /** Names available to every league roster; seeded from the real WWE/NXT/AEW/TNA rosters. */
+  /** Names every league roster can draw from; seeded from the real WWE/NXT/AEW/TNA rosters. */
   pool: PoolWrestler[]
 }

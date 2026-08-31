@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import { championInMatch, RATINGS, sideLabel, SIDE_SIZE, starLabel, titleKey } from '../simulate'
-import { championName, sortWrestlers } from '../lookup'
+import { championName, leagueOfShow, sortWrestlers } from '../lookup'
 import { allStipulations, sortStipulations } from '../stipulations'
 import type { Match, MatchType, Roster, Side } from '../types'
 
@@ -38,9 +38,10 @@ export default function ShowPage() {
     simulate,
   } = useLeague()
 
-  const show = state.shows.find((s) => s.id === showId)
+  const league = leagueOfShow(state, showId)
+  const show = league?.shows.find((s) => s.id === showId)
 
-  if (!show) {
+  if (!league || !show) {
     return (
       <div className="page">
         <h1>Show not found</h1>
@@ -49,7 +50,7 @@ export default function ShowPage() {
     )
   }
 
-  const homeRoster = state.rosters.find((r) => r.id === show.rosterId)
+  const homeRoster = league.rosters.find((r) => r.id === show.rosterId)
 
   if (!homeRoster) {
     return (
@@ -75,7 +76,7 @@ export default function ShowPage() {
     if (championInMatch(champion, sides)) return null
     return (
       <span className="muted">
-        {championName(state, champion)} is not in this match, so the title stays with them.
+        {championName(league, champion)} is not in this match, so the title stays with them.
       </span>
     )
   }
@@ -302,7 +303,7 @@ export default function ShowPage() {
                   <strong>
                     {show.mainEventId === match.id ? 'Main event' : `Match ${i + 1}`}:
                   </strong>{' '}
-                  {match.sides.map((s) => sideLabel(state, s)).join(' vs ') || 'No competitors'}
+                  {match.sides.map((s) => sideLabel(league, s)).join(' vs ') || 'No competitors'}
                   {match.rating !== null && (
                     <span className="stars" title={`${match.rating.toFixed(1)} stars`}>
                       {' '}
@@ -320,8 +321,8 @@ export default function ShowPage() {
       <div className="card">
         <h2>{roster.name} champions</h2>
         <p className="muted">
-          Men's: {championName(state, roster.champions.men)} · Women's: {championName(state, roster.champions.women)} ·
-          Tag Team: {championName(state, roster.champions.tag)}
+          Men's: {championName(league, roster.champions.men)} · Women's:{' '}
+          {championName(league, roster.champions.women)} · Tag Team: {championName(league, roster.champions.tag)}
         </p>
       </div>
     </div>

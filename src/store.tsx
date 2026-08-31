@@ -5,16 +5,24 @@ import { parseSaveFile } from './saveFile'
 import { newId } from './id'
 import { seedPool } from './pool'
 import { BUILT_IN_STIPULATIONS } from './stipulations'
-import type { Champions, Division, LeagueState, Match, MatchType, Roster, Show, Side } from './types'
+import type {
+  Champions,
+  Division,
+  League,
+  LeagueState,
+  Match,
+  MatchType,
+  Roster,
+  Show,
+  Side,
+} from './types'
 
 const STORAGE_KEY = 'wrestling-league-state-v1'
 
 const EMPTY_CHAMPIONS: Champions = { men: null, women: null, tag: null }
 
 const EMPTY_STATE: LeagueState = {
-  leagueLogo: '',
-  rosters: [],
-  shows: [],
+  leagues: [],
   stipulationList: [...BUILT_IN_STIPULATIONS],
   pool: seedPool(),
 }
@@ -31,11 +39,14 @@ function loadState(): LeagueState {
 
 interface LeagueActions {
   state: LeagueState
-  addRoster: (name: string) => Roster
+  addLeague: (name: string) => League
+  renameLeague: (leagueId: string, name: string) => void
+  setLeagueLogo: (leagueId: string, logo: string) => void
+  deleteLeague: (leagueId: string) => void
+  addRoster: (leagueId: string, name: string) => Roster
   renameRoster: (rosterId: string, name: string) => void
   setRosterOwner: (rosterId: string, owner: string) => void
   setRosterLogo: (rosterId: string, logo: string) => void
-  setLeagueLogo: (logo: string) => void
   deleteRoster: (rosterId: string) => void
   addWrestler: (rosterId: string, name: string, division: Division) => void
   updateWrestler: (rosterId: string, wrestlerId: string, name: string, division: Division) => void
@@ -69,17 +80,31 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
   }, [state])
 
+  const updateLeague = useCallback((leagueId: string, fn: (league: League) => League) => {
+    setState((prev) => ({
+      ...prev,
+      leagues: prev.leagues.map((l) => (l.id === leagueId ? fn(l) : l)),
+    }))
+  }, [])
+
+  /** Roster and show ids are unique across leagues, so their league is found by lookup. */
   const updateRoster = useCallback((rosterId: string, fn: (roster: Roster) => Roster) => {
     setState((prev) => ({
       ...prev,
-      rosters: prev.rosters.map((r) => (r.id === rosterId ? fn(r) : r)),
+      leagues: prev.leagues.map((l) => ({
+        ...l,
+        rosters: l.rosters.map((r) => (r.id === rosterId ? fn(r) : r)),
+      })),
     }))
   }, [])
 
   const updateShow = useCallback((showId: string, fn: (show: Show) => Show) => {
     setState((prev) => ({
       ...prev,
-      shows: prev.shows.map((s) => (s.id === showId ? fn(s) : s)),
+      leagues: prev.leagues.map((l) => ({
+        ...l,
+        shows: l.shows.map((s) => (s.id === showId ? fn(s) : s)),
+      })),
     }))
   }, [])
 
@@ -96,7 +121,21 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
   const actions = useMemo<LeagueActions>(
     () => ({
       state,
-      addRoster(name) {
+      addLeague(name) {
+        const league: League = { id: newId(), name, logo: '', rosters: [], shows: [] }
+        setState((prev) => ({ ...prev, leagues: [...prev.leagues, league] }))
+        return league
+      },
+      renameLeague(leagueId, name) {
+        updateLeague(leagueId, (l) => ({ ...l, name }))
+      },
+      setLeagueLogo(leagueId, logo) {
+        updateLeague(leagueId, (l) => ({ ...l, logo }))
+      },
+      deleteLeague(leagueId) {
+        setState((prev) => ({ ...prev, leagues: prev.leagues.filter((l) => l.id !== leagueId) }))
+      },
+      addRoster(leagueId, name) {
         const roster: Roster = {
           id: newId(),
           name,
@@ -105,7 +144,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           wrestlers: [],
           champions: { ...EMPTY_CHAMPIONS },
         }
-        setState((prev) => ({ ...prev, rosters: [...prev.rosters, roster] }))
+        updateLeague(leagueId, (l) => ({ ...l, rosters: [...l.rosters, roster] }))
         return roster
       },
       renameRoster(rosterId, name) {
@@ -117,14 +156,14 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       setRosterLogo(rosterId, logo) {
         updateRoster(rosterId, (r) => ({ ...r, logo }))
       },
-      setLeagueLogo(logo) {
-        setState((prev) => ({ ...prev, leagueLogo: logo }))
-      },
       deleteRoster(rosterId) {
         setState((prev) => ({
           ...prev,
-          rosters: prev.rosters.filter((r) => r.id !== rosterId),
-          shows: prev.shows.filter((s) => s.rosterId !== rosterId),
+          leagues: prev.leagues.map((l) => ({
+            ...l,
+            rosters: l.rosters.filter((r) => r.id !== rosterId),
+            shows: l.shows.filter((s) => s.rosterId !== rosterId),
+          })),
         }))
       },
       addWrestler(rosterId, name, division) {
@@ -161,14 +200,22 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
       },
       addShow(rosterId, name) {
         const show: Show = { id: newId(), rosterId, name, matches: [], mainEventId: null, simulatedAt: null }
-        setState((prev) => ({ ...prev, shows: [...prev.shows, show] }))
+        setState((prev) => ({
+          ...prev,
+          leagues: prev.leagues.map((l) =>
+            l.rosters.some((r) => r.id === rosterId) ? { ...l, shows: [...l.shows, show] } : l,
+          ),
+        }))
         return show
       },
       renameShow(showId, name) {
         updateShow(showId, (s) => ({ ...s, name }))
       },
       deleteShow(showId) {
-        setState((prev) => ({ ...prev, shows: prev.shows.filter((s) => s.id !== showId) }))
+        setState((prev) => ({
+          ...prev,
+          leagues: prev.leagues.map((l) => ({ ...l, shows: l.shows.filter((s) => s.id !== showId) })),
+        }))
       },
       addMatch(showId, type) {
         updateShow(showId, (show) => ({
@@ -261,22 +308,25 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
         }))
       },
       simulate(showId) {
-        setState((prev) => {
-          const show = prev.shows.find((s) => s.id === showId)
-          if (!show) return prev
-          const result = simulateShow(prev, show)
-          return {
-            ...prev,
-            rosters: result.rosters,
-            shows: prev.shows.map((s) => (s.id === showId ? result.show : s)),
-          }
-        })
+        setState((prev) => ({
+          ...prev,
+          leagues: prev.leagues.map((league) => {
+            const show = league.shows.find((s) => s.id === showId)
+            if (!show) return league
+            const result = simulateShow(league, show)
+            return {
+              ...league,
+              rosters: result.rosters,
+              shows: league.shows.map((s) => (s.id === showId ? result.show : s)),
+            }
+          }),
+        }))
       },
       replaceState(next) {
         setState(next)
       },
     }),
-    [state, updateRoster, updateShow, updateMatchIn],
+    [state, updateLeague, updateRoster, updateShow, updateMatchIn],
   )
 
   return <LeagueContext.Provider value={actions}>{children}</LeagueContext.Provider>

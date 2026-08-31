@@ -75,7 +75,7 @@ export async function saveToGitHub(token: string, state: LeagueState): Promise<v
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      message: `Update league save file (${state.rosters.length} rosters, ${state.shows.length} shows)`,
+      message: `Update league save file (${state.leagues.length} leagues, ${state.leagues.reduce((n, l) => n + l.rosters.length, 0)} rosters)`,
       content: encodeBase64(`${JSON.stringify(state, null, 2)}\n`),
       branch: GITHUB_BRANCH,
       sha,

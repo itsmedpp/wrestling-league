@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
-import { championName, sortWrestlers } from '../lookup'
+import { championName, leagueOfRoster, sortWrestlers } from '../lookup'
 import { sortPool } from '../pool'
 import LogoPicker from '../LogoPicker'
 import type { Champions, Division } from '../types'
@@ -22,11 +22,12 @@ export default function RosterPage() {
     deleteShow,
   } = useLeague()
 
-  const roster = state.rosters.find((r) => r.id === rosterId)
+  const league = leagueOfRoster(state, rosterId)
+  const roster = league?.rosters.find((r) => r.id === rosterId)
   const [poolId, setPoolId] = useState('')
   const [showName, setShowName] = useState('')
 
-  if (!roster) {
+  if (!league || !roster) {
     return (
       <div className="page">
         <h1>Roster not found</h1>
@@ -35,7 +36,7 @@ export default function RosterPage() {
     )
   }
 
-  const shows = state.shows.filter((s) => s.rosterId === roster.id)
+  const shows = league.shows.filter((s) => s.rosterId === roster.id)
 
   const taken = new Set(roster.wrestlers.map((w) => w.name.toLowerCase()))
   const available = sortPool(state.pool).filter((p) => !taken.has(p.name.toLowerCase()))
@@ -68,7 +69,7 @@ export default function RosterPage() {
     return (
       <div className="row" key={title}>
         <span className="title-badge">{label}</span>
-        <strong>{championName(state, roster.champions[title])}</strong>
+        <strong>{championName(league, roster.champions[title])}</strong>
         {slots.map((slot) => (
           <select key={slot} value={held[slot] ?? ''} onChange={(e) => setSlot(slot, e.target.value)}>
             <option value="">Vacant</option>
@@ -88,6 +89,9 @@ export default function RosterPage() {
       <div className="nav">
         <button className="secondary" onClick={() => navigate('/')}>
           ← Main page
+        </button>
+        <button className="secondary" onClick={() => navigate(`/league/${league.id}`)}>
+          ← {league.name}
         </button>
       </div>
 
