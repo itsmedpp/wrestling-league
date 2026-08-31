@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLeague } from '../store'
-import { championName } from '../lookup'
-import LogoPicker from '../LogoPicker'
 import {
   GITHUB_FILE_URL,
   GITHUB_PATH,
@@ -13,7 +11,7 @@ import {
 } from '../github'
 
 export default function HomePage() {
-  const { state, addRoster, deleteRoster, replaceState, setLeagueLogo } = useLeague()
+  const { state, addLeague, deleteLeague, replaceState } = useLeague()
   const [name, setName] = useState('')
   const [token, setToken] = useState(loadToken)
   const [githubMessage, setGithubMessage] = useState('')
@@ -23,14 +21,14 @@ export default function HomePage() {
   const create = () => {
     const trimmed = name.trim()
     if (!trimmed) return
-    const roster = addRoster(trimmed)
+    const league = addLeague(trimmed)
     setName('')
-    navigate(`/roster/${roster.id}`)
+    navigate(`/league/${league.id}`)
   }
 
-  const remove = (rosterId: string, rosterName: string) => {
-    if (!confirm(`Delete "${rosterName}" and all of its shows?`)) return
-    deleteRoster(rosterId)
+  const remove = (leagueId: string, leagueName: string) => {
+    if (!confirm(`Delete "${leagueName}" and all of its rosters and shows?`)) return
+    deleteLeague(leagueId)
   }
 
   const pullFromGitHub = async () => {
@@ -38,7 +36,8 @@ export default function HomePage() {
     setGithubMessage('')
     try {
       const remote = await loadFromGitHub(token)
-      const counts = `${remote.rosters.length} rosters and ${remote.shows.length} shows`
+      const rosters = remote.leagues.reduce((n, l) => n + l.rosters.length, 0)
+      const counts = `${remote.leagues.length} leagues and ${rosters} rosters`
       if (confirm(`Replace everything currently saved with ${counts} from GitHub?`)) {
         replaceState(remote)
         setGithubMessage(`Loaded ${counts} from GitHub.`)
@@ -70,34 +69,27 @@ export default function HomePage() {
 
   return (
     <div className="page">
-      <div className="row">
-        {state.leagueLogo && <img className="logo logo-large" src={state.leagueLogo} alt="League logo" />}
-        <div>
-          <h1>Wrestling League Simulator</h1>
-          <p className="subtitle">Build rosters, book shows, and let the matches decide your champions.</p>
-        </div>
-      </div>
+      <h1>Wrestling League Simulator</h1>
+      <p className="subtitle">Build rosters, book shows, and let the matches decide your champions.</p>
 
       <div className="card">
-        <h2>Rosters</h2>
-        {state.rosters.length === 0 && <p className="muted">No rosters yet. Create one below.</p>}
+        <h2>Leagues</h2>
+        {state.leagues.length === 0 && <p className="muted">No leagues yet. Create one below.</p>}
         <ul className="list">
-          {state.rosters.map((roster) => (
-            <li key={roster.id}>
+          {state.leagues.map((league) => (
+            <li key={league.id}>
               <div className="row">
-                {roster.logo && <img className="logo" src={roster.logo} alt={`${roster.name} logo`} />}
+                {league.logo && <img className="logo" src={league.logo} alt={`${league.name} logo`} />}
                 <div>
-                  <button className="link-button" onClick={() => navigate(`/roster/${roster.id}`)}>
-                    {roster.name}
+                  <button className="link-button" onClick={() => navigate(`/league/${league.id}`)}>
+                    {league.name}
                   </button>
                   <div className="muted">
-                    {roster.owner && `Owner: ${roster.owner} · `}
-                    {roster.wrestlers.length} wrestlers · Men: {championName(state, roster.champions.men)} · Women:{' '}
-                    {championName(state, roster.champions.women)} · Tag: {championName(state, roster.champions.tag)}
+                    {league.rosters.length} rosters · {league.shows.length} shows
                   </div>
                 </div>
               </div>
-              <button className="danger" onClick={() => remove(roster.id, roster.name)}>
+              <button className="danger" onClick={() => remove(league.id, league.name)}>
                 Delete
               </button>
             </li>
@@ -106,16 +98,16 @@ export default function HomePage() {
       </div>
 
       <div className="card">
-        <h2>Create a roster</h2>
+        <h2>Create a new league</h2>
         <div className="row">
           <input
             value={name}
-            placeholder="Roster name"
+            placeholder="League name"
             onChange={(e) => setName(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && create()}
           />
           <button onClick={create} disabled={!name.trim()}>
-            Add roster
+            Add league
           </button>
         </div>
       </div>
@@ -142,14 +134,9 @@ export default function HomePage() {
       </div>
 
       <div className="card">
-        <h2>League logo</h2>
-        <LogoPicker logo={state.leagueLogo} alt="League logo" onChange={setLeagueLogo} />
-      </div>
-
-      <div className="card">
         <h2>GitHub sync</h2>
         <p className="muted">
-          Shares one league through <a href={GITHUB_FILE_URL}>{GITHUB_PATH}</a> in the repo. Saving needs a
+          Shares every league through <a href={GITHUB_FILE_URL}>{GITHUB_PATH}</a> in the repo. Saving needs a
           GitHub token with write access, kept in this browser only; loading needs one too while the repo
           is private.
         </p>

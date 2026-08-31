@@ -1,8 +1,10 @@
 import { seedPool } from './pool'
 import { BUILT_IN_STIPULATIONS } from './stipulations'
+import { newId } from './id'
 import type {
   Champions,
   ChampionRef,
+  League,
   LeagueState,
   Match,
   MatchType,
@@ -141,18 +143,48 @@ function stipulationList(parsed: Record<string, unknown>): string[] {
   return [...new Set([...BUILT_IN_STIPULATIONS, ...custom])]
 }
 
-export function parseSaveFile(text: string): LeagueState {
-  const parsed: unknown = JSON.parse(text)
-  if (!isRecord(parsed)) invalid()
-  const rosters = arr(parsed.rosters)
+function legacyTeamsIn(rosters: unknown[]): LegacyTeams {
   const teams: LegacyTeams = new Map()
   for (const entry of rosters) {
     for (const [id, memberIds] of legacyTeams(entry)) teams.set(id, memberIds)
   }
+  return teams
+}
+
+function league(value: unknown): League {
+  if (!isRecord(value)) invalid()
+  const rosters = arr(value.rosters)
+  const teams = legacyTeamsIn(rosters)
   return {
-    leagueLogo: typeof parsed.leagueLogo === 'string' ? parsed.leagueLogo : '',
+    id: str(value.id),
+    name: str(value.name),
+    logo: typeof value.logo === 'string' ? value.logo : '',
     rosters: rosters.map((r) => roster(r, teams)),
-    shows: arr(parsed.shows).map((s) => show(s, teams)),
+    shows: arr(value.shows).map((s) => show(s, teams)),
+  }
+}
+
+/** Saves written before leagues existed held a single league's rosters and shows at the top level. */
+function leagues(parsed: Record<string, unknown>): League[] {
+  if (parsed.leagues !== undefined) return arr(parsed.leagues).map(league)
+  const rosters = arr(parsed.rosters)
+  const teams = legacyTeamsIn(rosters)
+  return [
+    {
+      id: newId(),
+      name: 'Chairshot Wrestling League',
+      logo: typeof parsed.leagueLogo === 'string' ? parsed.leagueLogo : '',
+      rosters: rosters.map((r) => roster(r, teams)),
+      shows: arr(parsed.shows).map((s) => show(s, teams)),
+    },
+  ]
+}
+
+export function parseSaveFile(text: string): LeagueState {
+  const parsed: unknown = JSON.parse(text)
+  if (!isRecord(parsed)) invalid()
+  return {
+    leagues: leagues(parsed),
     stipulationList: stipulationList(parsed),
     pool: parsed.pool === undefined ? seedPool() : arr(parsed.pool).map(poolWrestler),
   }
