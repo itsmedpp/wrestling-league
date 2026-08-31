@@ -4,6 +4,8 @@ import { newId } from './id'
 import type {
   Champions,
   ChampionRef,
+  Draft,
+  DraftPick,
   League,
   LeagueState,
   Match,
@@ -143,6 +145,28 @@ function stipulationList(parsed: Record<string, unknown>): string[] {
   return [...new Set([...BUILT_IN_STIPULATIONS, ...custom])]
 }
 
+function draftPick(value: unknown): DraftPick {
+  if (!isRecord(value)) invalid()
+  return {
+    round: typeof value.round === 'number' ? value.round : 1,
+    rosterId: str(value.rosterId),
+    name: str(value.name),
+    division: value.division === 'women' ? 'women' : 'men',
+  }
+}
+
+function draft(value: unknown): Draft {
+  if (!isRecord(value)) invalid()
+  return {
+    id: str(value.id),
+    startedAt: typeof value.startedAt === 'string' ? value.startedAt : '',
+    completedAt: typeof value.completedAt === 'string' ? value.completedAt : null,
+    rounds: typeof value.rounds === 'number' ? value.rounds : 0,
+    order: arr(value.order).map(str),
+    picks: arr(value.picks).map(draftPick),
+  }
+}
+
 function legacyTeamsIn(rosters: unknown[]): LegacyTeams {
   const teams: LegacyTeams = new Map()
   for (const entry of rosters) {
@@ -161,6 +185,8 @@ function league(value: unknown): League {
     logo: typeof value.logo === 'string' ? value.logo : '',
     rosters: rosters.map((r) => roster(r, teams)),
     shows: arr(value.shows).map((s) => show(s, teams)),
+    draft: value.draft == null ? null : draft(value.draft),
+    draftHistory: value.draftHistory === undefined ? [] : arr(value.draftHistory).map(draft),
   }
 }
 
@@ -176,6 +202,8 @@ function leagues(parsed: Record<string, unknown>): League[] {
       logo: typeof parsed.leagueLogo === 'string' ? parsed.leagueLogo : '',
       rosters: rosters.map((r) => roster(r, teams)),
       shows: arr(parsed.shows).map((s) => show(s, teams)),
+      draft: null,
+      draftHistory: [],
     },
   ]
 }

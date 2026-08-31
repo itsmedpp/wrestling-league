@@ -130,6 +130,12 @@ ul.list li {
   border-bottom: 1px solid #2b3346;
 }
 
+ul.list li.stack {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
 ul.list li:last-child {
   border-bottom: none;
 }

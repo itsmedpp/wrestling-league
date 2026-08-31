@@ -83,6 +83,16 @@ export default function LeaguePage() {
       </div>
 
       <div className="card">
+        <h2>Draft</h2>
+        <p className="muted">
+          {league.draft
+            ? `Last draft: ${league.draft.picks.length} picks over ${league.draft.rounds} rounds.`
+            : 'Stock this league’s rosters with a snake draft from the roster pool.'}
+        </p>
+        <button onClick={() => navigate(`/league/${league.id}/draft`)}>Open the draft</button>
+      </div>
+
+      <div className="card">
         <h2>Create a roster</h2>
         <div className="row">
           <input

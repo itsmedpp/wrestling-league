@@ -3,11 +3,13 @@ import type { ReactNode } from 'react'
 import { simulateShow } from './simulate'
 import { parseSaveFile } from './saveFile'
 import { newId } from './id'
+import { isDraftComplete, newDraft, pickingRosterId, undraftedPool } from './draft'
 import { seedPool } from './pool'
 import { BUILT_IN_STIPULATIONS } from './stipulations'
 import type {
   Champions,
   Division,
+  Draft,
   League,
   LeagueState,
   Match,
@@ -25,6 +27,24 @@ const EMPTY_STATE: LeagueState = {
   leagues: [],
   stipulationList: [...BUILT_IN_STIPULATIONS],
   pool: seedPool(),
+}
+
+/** Adds the name to the roster on the clock and records the pick; a no-op once the draft is done. */
+function withPick(league: League, name: string, division: Division): League {
+  const draft = league.draft
+  if (!draft) return league
+  const rosterId = pickingRosterId(draft)
+  if (!rosterId) return league
+  const round = Math.floor(draft.picks.length / draft.order.length) + 1
+  const picks = [...draft.picks, { round, rosterId, name, division }]
+  const next: Draft = { ...draft, picks }
+  return {
+    ...league,
+    rosters: league.rosters.map((r) =>
+      r.id === rosterId ? { ...r, wrestlers: [...r.wrestlers, { id: newId(), name, division }] } : r,
+    ),
+    draft: { ...next, completedAt: isDraftComplete(next) ? new Date().toISOString() : null },
+  }
 }
 
 function loadState(): LeagueState {
@@ -63,6 +83,10 @@ interface LeagueActions {
   removeMatchSide: (showId: string, matchId: string, index: number) => void
   moveMatch: (showId: string, matchId: string, offset: number) => void
   setMainEvent: (showId: string, matchId: string | null) => void
+  /** Clears every roster in the league and starts a fresh snake draft, archiving the previous one. */
+  startDraft: (leagueId: string, rounds: number) => void
+  draftWrestler: (leagueId: string, name: string, division: Division) => void
+  autoDraft: (leagueId: string, picks: number) => void
   addPoolWrestler: (name: string, promotion: string, division: Division) => void
   removePoolWrestler: (poolId: string) => void
   addStipulation: (name: string) => void
@@ -122,7 +146,15 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
     () => ({
       state,
       addLeague(name) {
-        const league: League = { id: newId(), name, logo: '', rosters: [], shows: [] }
+        const league: League = {
+          id: newId(),
+          name,
+          logo: '',
+          rosters: [],
+          shows: [],
+          draft: null,
+          draftHistory: [],
+        }
         setState((prev) => ({ ...prev, leagues: [...prev.leagues, league] }))
         return league
       },
@@ -282,6 +314,37 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           sides: m.sides.filter((_, i) => i !== index),
           winnerIndex: null,
           summary: null,
+        }))
+      },
+      startDraft(leagueId, rounds) {
+        updateLeague(leagueId, (l) => ({
+          ...l,
+          rosters: l.rosters.map((r) => ({
+            ...r,
+            wrestlers: [],
+            champions: { ...EMPTY_CHAMPIONS },
+          })),
+          draft: newDraft(l.rosters, rounds),
+          draftHistory: l.draft ? [...l.draftHistory, l.draft] : l.draftHistory,
+        }))
+      },
+      draftWrestler(leagueId, name, division) {
+        updateLeague(leagueId, (l) => withPick(l, name, division))
+      },
+      autoDraft(leagueId, picks) {
+        setState((prev) => ({
+          ...prev,
+          leagues: prev.leagues.map((l) => {
+            if (l.id !== leagueId) return l
+            let next = l
+            for (let i = 0; i < picks; i++) {
+              const candidates = undraftedPool(next, prev.pool)
+              if (candidates.length === 0 || !next.draft || isDraftComplete(next.draft)) break
+              const choice = candidates[Math.floor(Math.random() * candidates.length)]
+              next = withPick(next, choice.name, choice.division)
+            }
+            return next
+          }),
         }))
       },
       addPoolWrestler(name, promotion, division) {
