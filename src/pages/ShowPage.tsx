@@ -256,6 +256,9 @@ export default function ShowPage() {
         <button className="secondary" onClick={() => navigate('/')}>
           ← Main page
         </button>
+        <button className="secondary" onClick={() => navigate(`/league/${league.id}`)}>
+          ← {league.name}
+        </button>
         {homeRoster && (
           <button className="secondary" onClick={() => navigate(`/roster/${homeRoster.id}`)}>
             ← {homeRoster.name}
