@@ -3,13 +3,14 @@ import type { ReactNode } from 'react'
 import { simulateShow } from './simulate'
 import { parseSaveFile } from './saveFile'
 import { newId } from './id'
-import { isDraftComplete, newDraft, pickingRosterId, undraftedPool } from './draft'
+import { canDraft, isDraftComplete, newDraft, pickingRosterId, undraftedPool } from './draft'
 import { seedPool } from './pool'
 import { BUILT_IN_STIPULATIONS } from './stipulations'
 import type {
   Champions,
   Division,
   Draft,
+  DraftLimits,
   League,
   LeagueState,
   Match,
@@ -34,7 +35,7 @@ function withPick(league: League, name: string, division: Division): League {
   const draft = league.draft
   if (!draft) return league
   const rosterId = pickingRosterId(draft)
-  if (!rosterId) return league
+  if (!rosterId || !canDraft(draft, rosterId, division)) return league
   const round = Math.floor(draft.picks.length / draft.order.length) + 1
   const picks = [...draft.picks, { round, rosterId, name, division }]
   const next: Draft = { ...draft, picks }
@@ -84,7 +85,7 @@ interface LeagueActions {
   moveMatch: (showId: string, matchId: string, offset: number) => void
   setMainEvent: (showId: string, matchId: string | null) => void
   /** Clears every roster in the league and starts a fresh snake draft, archiving the previous one. */
-  startDraft: (leagueId: string, rounds: number) => void
+  startDraft: (leagueId: string, rounds: number, limits: DraftLimits) => void
   draftWrestler: (leagueId: string, name: string, division: Division) => void
   autoDraft: (leagueId: string, picks: number) => void
   addPoolWrestler: (name: string, promotion: string, division: Division) => void
@@ -316,7 +317,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
           summary: null,
         }))
       },
-      startDraft(leagueId, rounds) {
+      startDraft(leagueId, rounds, limits) {
         updateLeague(leagueId, (l) => ({
           ...l,
           rosters: l.rosters.map((r) => ({
@@ -324,7 +325,7 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
             wrestlers: [],
             champions: { ...EMPTY_CHAMPIONS },
           })),
-          draft: newDraft(l.rosters, rounds),
+          draft: newDraft(l.rosters, rounds, limits),
           draftHistory: l.draft ? [...l.draftHistory, l.draft] : l.draftHistory,
         }))
       },
@@ -338,8 +339,13 @@ export function LeagueProvider({ children }: { children: ReactNode }) {
             if (l.id !== leagueId) return l
             let next = l
             for (let i = 0; i < picks; i++) {
-              const candidates = undraftedPool(next, prev.pool)
-              if (candidates.length === 0 || !next.draft || isDraftComplete(next.draft)) break
+              const draft = next.draft
+              const rosterId = draft && pickingRosterId(draft)
+              if (!draft || !rosterId || isDraftComplete(draft)) break
+              const candidates = undraftedPool(next, prev.pool).filter((p) =>
+                canDraft(draft, rosterId, p.division),
+              )
+              if (candidates.length === 0) break
               const choice = candidates[Math.floor(Math.random() * candidates.length)]
               next = withPick(next, choice.name, choice.division)
             }

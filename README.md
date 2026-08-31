@@ -28,7 +28,9 @@ Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
   from the roster pool. Pick how many wrestlers each roster drafts (20 by default); starting a draft
   clears the league's rosters and champions, randomizes the roster order, and reverses it every other
   round. Picks come from the pool, a name that is not in the pool yet can be added and drafted in one
-  step, and picks can be made at random or auto-completed. Every earlier draft is kept as history.
+  step, and picks can be made at random or auto-completed. Each division can be capped per roster
+  (blank for no limit, 0 to block it entirely). Picks are summarized by roster and by round, and every
+  earlier draft is kept as history.
 - **Roster pool page** — reached from the main page; the shared list of names (with promotion and
   division) that league rosters draw from, seeded from the WWE, NXT, AEW, and TNA rosters and freely
   editable. It is shared by every league.

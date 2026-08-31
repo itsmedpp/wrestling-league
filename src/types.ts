@@ -78,6 +78,12 @@ export interface DraftPick {
   division: Division
 }
 
+/** Most wrestlers of each division a roster may draft; null means no limit. */
+export interface DraftLimits {
+  men: number | null
+  women: number | null
+}
+
 /** A snake draft that stocks a league's rosters from the shared pool. */
 export interface Draft {
   id: string
@@ -85,6 +91,7 @@ export interface Draft {
   completedAt: string | null
   /** Wrestlers drafted per roster. */
   rounds: number
+  limits: DraftLimits
   /** Randomized roster order for the odd rounds; even rounds run it backwards. */
   order: string[]
   picks: DraftPick[]

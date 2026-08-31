@@ -3,8 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useLeague } from '../store'
 import {
   DEFAULT_DRAFT_ROUNDS,
+  canDraft,
   currentRound,
   isDraftComplete,
+  picksFor,
   pickingRosterId,
   totalPicks,
   undraftedPool,
@@ -12,12 +14,23 @@ import {
 import { PROMOTIONS, sortPool } from '../pool'
 import type { Division, Draft, League } from '../types'
 
+/** Blank means no limit; any number, including 0, caps that division. */
+function parseLimit(value: string): number | null {
+  const trimmed = value.trim()
+  if (!trimmed) return null
+  const count = Number(trimmed)
+  return Number.isInteger(count) && count >= 0 ? count : null
+}
+
 function when(iso: string): string {
   return iso ? new Date(iso).toLocaleString() : 'Unknown date'
 }
 
-function DraftBoard({ league, draft }: { league: League; draft: Draft }) {
-  const rosterName = (id: string) => league.rosters.find((r) => r.id === id)?.name ?? 'Removed roster'
+function rosterName(league: League, id: string): string {
+  return league.rosters.find((r) => r.id === id)?.name ?? 'Removed roster'
+}
+
+function RoundSummary({ league, draft }: { league: League; draft: Draft }) {
   const rounds = Array.from(new Set(draft.picks.map((p) => p.round)))
 
   return (
@@ -28,8 +41,32 @@ function DraftBoard({ league, draft }: { league: League; draft: Draft }) {
           <span className="muted">
             {draft.picks
               .filter((p) => p.round === round)
-              .map((p) => `${rosterName(p.rosterId)}: ${p.name}`)
+              .map((p) => `${rosterName(league, p.rosterId)}: ${p.name}`)
               .join(' · ')}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function TeamSummary({ league, draft }: { league: League; draft: Draft }) {
+  return (
+    <ul className="list">
+      {draft.order.map((rosterId) => (
+        <li key={rosterId} className="stack">
+          <strong>
+            {rosterName(league, rosterId)}{' '}
+            <span className="muted">
+              ({picksFor(draft, rosterId)} picks · {picksFor(draft, rosterId, 'men')} men ·{' '}
+              {picksFor(draft, rosterId, 'women')} women)
+            </span>
+          </strong>
+          <span className="muted">
+            {draft.picks
+              .filter((p) => p.rosterId === rosterId)
+              .map((p) => `${p.round}. ${p.name}`)
+              .join(' · ') || 'No picks yet.'}
           </span>
         </li>
       ))}
@@ -42,6 +79,8 @@ export default function DraftPage() {
   const navigate = useNavigate()
   const { state, startDraft, draftWrestler, autoDraft, addPoolWrestler } = useLeague()
   const [rounds, setRounds] = useState(String(DEFAULT_DRAFT_ROUNDS))
+  const [menLimit, setMenLimit] = useState('')
+  const [womenLimit, setWomenLimit] = useState('')
   const [pick, setPick] = useState('')
   const [newName, setNewName] = useState('')
   const [promotion, setPromotion] = useState<string>(PROMOTIONS[0])
@@ -62,16 +101,23 @@ export default function DraftPage() {
   const running = draft && !isDraftComplete(draft)
   const onClockId = draft ? pickingRosterId(draft) : null
   const onClock = league.rosters.find((r) => r.id === onClockId)
-  const available = sortPool(undraftedPool(league, state.pool))
+  const available = sortPool(undraftedPool(league, state.pool)).filter(
+    (p) => !draft || !onClockId || canDraft(draft, onClockId, p.division),
+  )
 
   const begin = () => {
     const count = Number(rounds)
     if (!Number.isInteger(count) || count < 1) return
+    const limits = { men: parseLimit(menLimit), women: parseLimit(womenLimit) }
+    if (limits.men !== null && limits.women !== null && limits.men + limits.women < count) {
+      alert(`Those limits only allow ${limits.men + limits.women} picks, fewer than the ${count} rounds.`)
+      return
+    }
     const wrestlers = league.rosters.reduce((n, r) => n + r.wrestlers.length, 0)
     const warning = wrestlers > 0 ? ' This clears every wrestler and champion already on them.' : ''
     if (!confirm(`Draft ${count} wrestlers onto each of the ${league.rosters.length} rosters?${warning}`))
       return
-    startDraft(league.id, count)
+    startDraft(league.id, count, limits)
     setPick('')
   }
 
@@ -122,9 +168,32 @@ export default function DraftPage() {
                 style={{ width: '5rem' }}
               />
             </label>
+            <label>
+              Men per roster{' '}
+              <input
+                type="number"
+                min={0}
+                value={menLimit}
+                placeholder="No limit"
+                onChange={(e) => setMenLimit(e.target.value)}
+                style={{ width: '7rem' }}
+              />
+            </label>
+            <label>
+              Women per roster{' '}
+              <input
+                type="number"
+                min={0}
+                value={womenLimit}
+                placeholder="No limit"
+                onChange={(e) => setWomenLimit(e.target.value)}
+                style={{ width: '7rem' }}
+              />
+            </label>
             <button onClick={begin}>{draft ? 'Reset rosters and redraft' : 'Start draft'}</button>
           </div>
         )}
+        <p className="muted">Leave a limit blank for no limit; 0 blocks that division entirely.</p>
       </div>
 
       {draft && (
@@ -135,6 +204,11 @@ export default function DraftPage() {
               {draft.picks.length} of {totalPicks(draft)} picks · started {when(draft.startedAt)}
             </span>
           </div>
+
+          <p className="muted">
+            Limits per roster: {draft.limits.men === null ? 'no limit' : draft.limits.men} men ·{' '}
+            {draft.limits.women === null ? 'no limit' : draft.limits.women} women
+          </p>
 
           <p>
             Order:{' '}
@@ -148,6 +222,11 @@ export default function DraftPage() {
               <p>
                 On the clock: <strong>{onClock ? onClock.name : 'Removed roster'}</strong>
               </p>
+              {available.length === 0 && (
+                <p className="muted">
+                  No eligible names left in the pool for this roster — add one below.
+                </p>
+              )}
               <div className="row">
                 <select value={pick} onChange={(e) => setPick(e.target.value)}>
                   <option value="">Pick from the roster pool…</option>
@@ -190,18 +269,24 @@ export default function DraftPage() {
                   <option value="men">Men's</option>
                   <option value="women">Women's</option>
                 </select>
-                <button onClick={draftNewName} disabled={!newName.trim()}>
+                <button
+                  onClick={draftNewName}
+                  disabled={!newName.trim() || !onClockId || !canDraft(draft, onClockId, division)}
+                >
                   Add to pool and draft
                 </button>
               </div>
             </>
           )}
 
-          <h3>Picks</h3>
+          <h3>By roster</h3>
+          <TeamSummary league={league} draft={draft} />
+
+          <h3>By round</h3>
           {draft.picks.length === 0 ? (
             <p className="muted">No picks yet.</p>
           ) : (
-            <DraftBoard league={league} draft={draft} />
+            <RoundSummary league={league} draft={draft} />
           )}
         </div>
       )}
@@ -216,7 +301,8 @@ export default function DraftPage() {
                   <summary>
                     {when(old.startedAt)} · {old.rounds} rounds · {old.picks.length} picks
                   </summary>
-                  <DraftBoard league={league} draft={old} />
+                  <TeamSummary league={league} draft={old} />
+                  <RoundSummary league={league} draft={old} />
                 </details>
               </li>
             ))}
