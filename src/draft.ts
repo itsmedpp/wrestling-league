@@ -1,5 +1,5 @@
 import { newId } from './id'
-import type { Draft, League, PoolWrestler, Roster } from './types'
+import type { Division, Draft, DraftLimits, League, PoolWrestler, Roster } from './types'
 
 /** Wrestlers drafted per roster unless the league picks another number. */
 export const DEFAULT_DRAFT_ROUNDS = 20
@@ -37,12 +37,29 @@ export function currentRound(draft: Draft): number {
   return Math.min(draft.rounds, Math.floor(draft.picks.length / teams) + 1)
 }
 
-export function newDraft(rosters: Roster[], rounds: number): Draft {
+export function NO_LIMITS(): DraftLimits {
+  return { men: null, women: null }
+}
+
+export function picksFor(draft: Draft, rosterId: string, division?: Division): number {
+  return draft.picks.filter(
+    (p) => p.rosterId === rosterId && (division === undefined || p.division === division),
+  ).length
+}
+
+/** False once the roster has hit its limit for that division. */
+export function canDraft(draft: Draft, rosterId: string, division: Division): boolean {
+  const limit = draft.limits[division]
+  return limit === null || picksFor(draft, rosterId, division) < limit
+}
+
+export function newDraft(rosters: Roster[], rounds: number, limits: DraftLimits): Draft {
   return {
     id: newId(),
     startedAt: new Date().toISOString(),
     completedAt: null,
     rounds,
+    limits,
     order: shuffle(rosters.map((r) => r.id)),
     picks: [],
   }

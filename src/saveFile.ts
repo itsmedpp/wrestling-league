@@ -155,13 +155,19 @@ function draftPick(value: unknown): DraftPick {
   }
 }
 
+function draftLimit(value: unknown): number | null {
+  return typeof value === 'number' ? value : null
+}
+
 function draft(value: unknown): Draft {
   if (!isRecord(value)) invalid()
+  const limits = isRecord(value.limits) ? value.limits : {}
   return {
     id: str(value.id),
     startedAt: typeof value.startedAt === 'string' ? value.startedAt : '',
     completedAt: typeof value.completedAt === 'string' ? value.completedAt : null,
     rounds: typeof value.rounds === 'number' ? value.rounds : 0,
+    limits: { men: draftLimit(limits.men), women: draftLimit(limits.women) },
     order: arr(value.order).map(str),
     picks: arr(value.picks).map(draftPick),
   }
