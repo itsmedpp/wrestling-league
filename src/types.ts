@@ -70,6 +70,26 @@ export interface Roster {
   champions: Champions
 }
 
+export interface DraftPick {
+  /** 1-based round the pick was made in. */
+  round: number
+  rosterId: string
+  name: string
+  division: Division
+}
+
+/** A snake draft that stocks a league's rosters from the shared pool. */
+export interface Draft {
+  id: string
+  startedAt: string
+  completedAt: string | null
+  /** Wrestlers drafted per roster. */
+  rounds: number
+  /** Randomized roster order for the odd rounds; even rounds run it backwards. */
+  order: string[]
+  picks: DraftPick[]
+}
+
 /** One promotion: its own rosters, shows, champions, and logo. Leagues never mix. */
 export interface League {
   id: string
@@ -78,6 +98,10 @@ export interface League {
   logo: string
   rosters: Roster[]
   shows: Show[]
+  /** The draft in progress, or the last completed one; null before the league has ever drafted. */
+  draft: Draft | null
+  /** Every earlier draft, oldest first, kept when the league redrafts. */
+  draftHistory: Draft[]
 }
 
 export interface LeagueState {
