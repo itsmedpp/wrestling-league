@@ -1519,7 +1519,13 @@
           "name": "Team 10",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "004ubp1wmthpgddd",
+              "name": "Kenny Omega",
+              "division": "men"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1528,7 +1534,36 @@
         }
       ],
       "shows": [],
-      "draft": null,
+      "draft": {
+        "id": "d6v75wqfmthpg3o0",
+        "startedAt": "2026-08-31T20:42:44.496Z",
+        "completedAt": null,
+        "rounds": 20,
+        "limits": {
+          "men": null,
+          "women": null
+        },
+        "order": [
+          "ll8h1h07mtho9cby",
+          "cgwa4xofmtho97pw",
+          "wujfmldqmtho8s4m",
+          "xn31rfpamtho8je0",
+          "6u3wustpmtho837i",
+          "57n3yq06mtho7sxt",
+          "8tkh5rqhmtho8xgf",
+          "xuu8ta5xmtho7y1k",
+          "1qe932vymtho92q2",
+          "nvzs7xlymtho87j5"
+        ],
+        "picks": [
+          {
+            "round": 1,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Kenny Omega",
+            "division": "men"
+          }
+        ]
+      },
       "draftHistory": []
     }
   ],
