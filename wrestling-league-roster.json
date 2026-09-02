@@ -1411,7 +1411,83 @@
           "name": "Team 1",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "1cksyb32mtjf9nwt",
+              "name": "Hangman Adam Page",
+              "division": "men"
+            },
+            {
+              "id": "p9zb59mimtjfbg3p",
+              "name": "Rhea Ripley",
+              "division": "women"
+            },
+            {
+              "id": "s10q4bbumtjfbg3p",
+              "name": "Nic Nemeth",
+              "division": "men"
+            },
+            {
+              "id": "5sg7ehgsmtjfbg3q",
+              "name": "Jacy Jayne",
+              "division": "women"
+            },
+            {
+              "id": "gembszermtjfbg3q",
+              "name": "Cora Jade",
+              "division": "women"
+            },
+            {
+              "id": "i8gitld5mtjfbg3r",
+              "name": "Indi Hartwell",
+              "division": "women"
+            },
+            {
+              "id": "j961g43smtjfbg3r",
+              "name": "Kris Statlander",
+              "division": "women"
+            },
+            {
+              "id": "r1q680dxmtjfbg3r",
+              "name": "Jordynne Grace",
+              "division": "women"
+            },
+            {
+              "id": "p4nmap9hmtjfbg3s",
+              "name": "Apollo Crews",
+              "division": "men"
+            },
+            {
+              "id": "xi1e1apimtjfbg3s",
+              "name": "Josh Briggs",
+              "division": "men"
+            },
+            {
+              "id": "m430sju4mtjfbg3t",
+              "name": "Andrade",
+              "division": "men"
+            },
+            {
+              "id": "ko9g7850mtjfbg3t",
+              "name": "Karrion Kross",
+              "division": "men"
+            },
+            {
+              "id": "wb7avv9xmtjfbg3u",
+              "name": "Becky Lynch",
+              "division": "women"
+            },
+            {
+              "id": "rqbe2eggmtjfbg3u",
+              "name": "Nicholas Jackson",
+              "division": "men"
+            },
+            {
+              "id": "231mk6u6mtjfbg3u",
+              "name": "Brooks Jensen",
+              "division": "men"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1423,7 +1499,83 @@
           "name": "Team 2",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "8mw4f3gfmtjf9yyg",
+              "name": "MJF",
+              "division": "men"
+            },
+            {
+              "id": "6yxs8xs4mtjfb7ww",
+              "name": "Roman Reigns",
+              "division": "men"
+            },
+            {
+              "id": "3jauf95nmtjfbg3p",
+              "name": "AJ Styles",
+              "division": "men"
+            },
+            {
+              "id": "8uxm6ikkmtjfbg3q",
+              "name": "Fallon Henley",
+              "division": "women"
+            },
+            {
+              "id": "ttp44mrymtjfbg3q",
+              "name": "Chad Gable",
+              "division": "men"
+            },
+            {
+              "id": "5w9qw1rrmtjfbg3r",
+              "name": "Powerhouse Hobbs",
+              "division": "men"
+            },
+            {
+              "id": "htg3iyvxmtjfbg3r",
+              "name": "CM Punk",
+              "division": "men"
+            },
+            {
+              "id": "kcwj3wd4mtjfbg3r",
+              "name": "Leon Slater",
+              "division": "men"
+            },
+            {
+              "id": "r0a6c01ymtjfbg3s",
+              "name": "Nathan Frazer",
+              "division": "men"
+            },
+            {
+              "id": "bs5i2gzfmtjfbg3s",
+              "name": "Mark Briscoe",
+              "division": "men"
+            },
+            {
+              "id": "7d84tfdbmtjfbg3t",
+              "name": "Jamie Hayter",
+              "division": "women"
+            },
+            {
+              "id": "ourjs54imtjfbg3t",
+              "name": "Chris Bey",
+              "division": "men"
+            },
+            {
+              "id": "t18cway8mtjfbg3u",
+              "name": "Piper Niven",
+              "division": "women"
+            },
+            {
+              "id": "lqbczo0hmtjfbg3u",
+              "name": "Cody Rhodes",
+              "division": "men"
+            },
+            {
+              "id": "xfse6gtlmtjfbg3u",
+              "name": "Sol Ruca",
+              "division": "women"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1435,7 +1587,83 @@
           "name": "Team 3",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "oqtp792amtjf9l3v",
+              "name": "Claudio Castagnoli",
+              "division": "men"
+            },
+            {
+              "id": "q3mtpygkmtjfbg3p",
+              "name": "Channing Lorenzo",
+              "division": "men"
+            },
+            {
+              "id": "zxb5gg81mtjfbg3p",
+              "name": "Ash By Elegance",
+              "division": "women"
+            },
+            {
+              "id": "uh5bj6b2mtjfbg3q",
+              "name": "Shawn Spears",
+              "division": "men"
+            },
+            {
+              "id": "7rx3jfbxmtjfbg3q",
+              "name": "Josh Alexander",
+              "division": "men"
+            },
+            {
+              "id": "v2td1db8mtjfbg3r",
+              "name": "JD McDonagh",
+              "division": "men"
+            },
+            {
+              "id": "wh7atvyamtjfbg3r",
+              "name": "Raquel Rodriguez",
+              "division": "women"
+            },
+            {
+              "id": "7juaaybemtjfbg3r",
+              "name": "Axiom",
+              "division": "men"
+            },
+            {
+              "id": "xolrl84wmtjfbg3s",
+              "name": "Spitfire",
+              "division": "women"
+            },
+            {
+              "id": "aiym2xpbmtjfbg3s",
+              "name": "Willow Nightingale",
+              "division": "women"
+            },
+            {
+              "id": "9kyw822hmtjfbg3t",
+              "name": "Dani Luna",
+              "division": "women"
+            },
+            {
+              "id": "e0kbija2mtjfbg3t",
+              "name": "Giulia",
+              "division": "women"
+            },
+            {
+              "id": "w3cqpwjmmtjfbg3u",
+              "name": "Penta El Zero Miedo",
+              "division": "men"
+            },
+            {
+              "id": "njy8xvwymtjfbg3u",
+              "name": "Tiffany Stratton",
+              "division": "women"
+            },
+            {
+              "id": "4uem4aj3mtjfbg3u",
+              "name": "Jade Cargill",
+              "division": "women"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1447,7 +1675,88 @@
           "name": "Team 4",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "izw7ysyxmtjfanj4",
+              "name": "Bron Breakker",
+              "division": "men"
+            },
+            {
+              "id": "jblkxgx0mtjfaug8",
+              "name": "Drew McIntyre",
+              "division": "men"
+            },
+            {
+              "id": "tw5gx60qmtjfbg3q",
+              "name": "Ethan Page",
+              "division": "men"
+            },
+            {
+              "id": "dcpaasq6mtjfbg3q",
+              "name": "Eddie Edwards",
+              "division": "men"
+            },
+            {
+              "id": "ryqq39owmtjfbg3q",
+              "name": "Grayson Waller",
+              "division": "men"
+            },
+            {
+              "id": "s85jzrg2mtjfbg3q",
+              "name": "Gunther",
+              "division": "men"
+            },
+            {
+              "id": "4le9h1djmtjfbg3r",
+              "name": "Ridge Holland",
+              "division": "men"
+            },
+            {
+              "id": "r7qzlcyomtjfbg3r",
+              "name": "Wren Sinclair",
+              "division": "women"
+            },
+            {
+              "id": "zhqq4lmbmtjfbg3s",
+              "name": "Rich Swann",
+              "division": "men"
+            },
+            {
+              "id": "eyj8osutmtjfbg3s",
+              "name": "Will Ospreay",
+              "division": "men"
+            },
+            {
+              "id": "0ea5zkrsmtjfbg3t",
+              "name": "Jacob Fatu",
+              "division": "men"
+            },
+            {
+              "id": "lm2yu05wmtjfbg3t",
+              "name": "Jimmy Uso",
+              "division": "men"
+            },
+            {
+              "id": "3lre1i6pmtjfbg3u",
+              "name": "Julia Hart",
+              "division": "women"
+            },
+            {
+              "id": "ai74daesmtjfbg3u",
+              "name": "Thea Hail",
+              "division": "women"
+            },
+            {
+              "id": "u2avi1swmtjfbg3v",
+              "name": "Alisha Edwards",
+              "division": "women"
+            },
+            {
+              "id": "w58i7p0imtjfbg3v",
+              "name": "Dominik Mysterio",
+              "division": "men"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1459,7 +1768,83 @@
           "name": "Team 5",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "ixl0471kmtjf9jje",
+              "name": "Christian Cage",
+              "division": "men"
+            },
+            {
+              "id": "9fu6ar6gmtjfbg3p",
+              "name": "Ace Austin",
+              "division": "men"
+            },
+            {
+              "id": "2xkxq45xmtjfbg3p",
+              "name": "Alexa Bliss",
+              "division": "women"
+            },
+            {
+              "id": "t4748revmtjfbg3q",
+              "name": "Ricochet",
+              "division": "men"
+            },
+            {
+              "id": "lwpnvw62mtjfbg3q",
+              "name": "Tony D’Angelo",
+              "division": "men"
+            },
+            {
+              "id": "1913q7r6mtjfbg3r",
+              "name": "Asuka",
+              "division": "women"
+            },
+            {
+              "id": "yspe0h56mtjfbg3r",
+              "name": "Mariah May",
+              "division": "women"
+            },
+            {
+              "id": "n0c1191amtjfbg3r",
+              "name": "Sami Zayn",
+              "division": "men"
+            },
+            {
+              "id": "v7qr1ljimtjfbg3s",
+              "name": "Serena Deeb",
+              "division": "women"
+            },
+            {
+              "id": "nxnbaaxcmtjfbg3s",
+              "name": "Bobby Lashley",
+              "division": "men"
+            },
+            {
+              "id": "i7hnep0pmtjfbg3t",
+              "name": "PAC",
+              "division": "men"
+            },
+            {
+              "id": "revdyijgmtjfbg3t",
+              "name": "Kevin Owens",
+              "division": "men"
+            },
+            {
+              "id": "7b0h6g2umtjfbg3t",
+              "name": "Otis",
+              "division": "men"
+            },
+            {
+              "id": "hkounhu5mtjfbg3u",
+              "name": "Roxanne Perez",
+              "division": "women"
+            },
+            {
+              "id": "4o0wzsiomtjfbg3u",
+              "name": "Carmelo Hayes",
+              "division": "men"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1471,7 +1856,83 @@
           "name": "Team 6",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "4dwbnszdmtjf9i4i",
+              "name": "Bryan Danielson",
+              "division": "men"
+            },
+            {
+              "id": "dqm7ztdlmtjfbg3p",
+              "name": "Laredo Kid",
+              "division": "men"
+            },
+            {
+              "id": "sy7cbnugmtjfbg3p",
+              "name": "Britt Baker",
+              "division": "women"
+            },
+            {
+              "id": "momysavumtjfbg3q",
+              "name": "Matthew Jackson",
+              "division": "men"
+            },
+            {
+              "id": "6h831x0amtjfbg3q",
+              "name": "Mercedes Mone",
+              "division": "women"
+            },
+            {
+              "id": "i4pmlumqmtjfbg3r",
+              "name": "Damian Priest",
+              "division": "men"
+            },
+            {
+              "id": "h7rgo6j8mtjfbg3r",
+              "name": "Kairi Sane",
+              "division": "women"
+            },
+            {
+              "id": "dk5zis3cmtjfbg3s",
+              "name": "Moose",
+              "division": "men"
+            },
+            {
+              "id": "n81eet69mtjfbg3s",
+              "name": "Joe Hendry",
+              "division": "men"
+            },
+            {
+              "id": "zgkt3f32mtjfbg3s",
+              "name": "Wheeler Yuta",
+              "division": "men"
+            },
+            {
+              "id": "zrsu6gsomtjfbg3t",
+              "name": "Masha Slamovich",
+              "division": "women"
+            },
+            {
+              "id": "artxhs87mtjfbg3t",
+              "name": "Matt Hardy",
+              "division": "men"
+            },
+            {
+              "id": "8ot5vyjmmtjfbg3t",
+              "name": "Angelo Dawkins",
+              "division": "men"
+            },
+            {
+              "id": "zdfjie5kmtjfbg3u",
+              "name": "Bianca Belair",
+              "division": "women"
+            },
+            {
+              "id": "jk2u73fmmtjfbg3u",
+              "name": "Skye Blue",
+              "division": "women"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1483,7 +1944,83 @@
           "name": "Team 7",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "05whhk1emtjf9qnw",
+              "name": "Jon Moxley",
+              "division": "men"
+            },
+            {
+              "id": "jpehn70zmtjfbg3o",
+              "name": "Jaida Parker",
+              "division": "women"
+            },
+            {
+              "id": "7ugyyd2omtjfbg3p",
+              "name": "Rosemary",
+              "division": "women"
+            },
+            {
+              "id": "ljyxllkymtjfbg3q",
+              "name": "Sheamus",
+              "division": "men"
+            },
+            {
+              "id": "s68ltxwbmtjfbg3q",
+              "name": "Kyle Fletcher",
+              "division": "men"
+            },
+            {
+              "id": "wy07ngdxmtjfbg3r",
+              "name": "Jey Uso",
+              "division": "men"
+            },
+            {
+              "id": "lnc5ya7emtjfbg3r",
+              "name": "Hikaru Shida",
+              "division": "women"
+            },
+            {
+              "id": "l8oau83pmtjfbg3r",
+              "name": "Austin Theory",
+              "division": "men"
+            },
+            {
+              "id": "rnvtxezamtjfbg3s",
+              "name": "Konosuke Takeshita",
+              "division": "men"
+            },
+            {
+              "id": "kghukjk8mtjfbg3s",
+              "name": "Toni Storm",
+              "division": "women"
+            },
+            {
+              "id": "sam0znl0mtjfbg3t",
+              "name": "Ricky Starks",
+              "division": "men"
+            },
+            {
+              "id": "g3itqfgumtjfbg3t",
+              "name": "Daniel Garcia",
+              "division": "men"
+            },
+            {
+              "id": "q8plc8lfmtjfbg3u",
+              "name": "Tatum Paxley",
+              "division": "women"
+            },
+            {
+              "id": "drl2b6fsmtjfbg3u",
+              "name": "Hook",
+              "division": "men"
+            },
+            {
+              "id": "wm39lzzbmtjfbg3u",
+              "name": "Trey Miguel",
+              "division": "men"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1495,7 +2032,83 @@
           "name": "Team 8",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "fegxmef1mtjfae58",
+              "name": "Oba Femi",
+              "division": "men"
+            },
+            {
+              "id": "isy9r06kmtjfb2tk",
+              "name": "LA Knight",
+              "division": "men"
+            },
+            {
+              "id": "m5i4ubdqmtjfbg3q",
+              "name": "Solo Sikoa",
+              "division": "men"
+            },
+            {
+              "id": "ndatvjptmtjfbg3q",
+              "name": "Rey Fenix",
+              "division": "men"
+            },
+            {
+              "id": "xzat8fb3mtjfbg3q",
+              "name": "Zelina Vega",
+              "division": "women"
+            },
+            {
+              "id": "sfcgp6j9mtjfbg3q",
+              "name": "Naomi",
+              "division": "women"
+            },
+            {
+              "id": "hpfabsljmtjfbg3r",
+              "name": "Lexis King",
+              "division": "men"
+            },
+            {
+              "id": "fswsrhp3mtjfbg3r",
+              "name": "Nia Jax",
+              "division": "women"
+            },
+            {
+              "id": "q9civy44mtjfbg3s",
+              "name": "Mustafa Ali",
+              "division": "men"
+            },
+            {
+              "id": "ih05b2v8mtjfbg3s",
+              "name": "Eddy Thorpe",
+              "division": "men"
+            },
+            {
+              "id": "hvuespm1mtjfbg3t",
+              "name": "Montez Ford",
+              "division": "men"
+            },
+            {
+              "id": "uxjlkmndmtjfbg3t",
+              "name": "Swerve Strickland",
+              "division": "men"
+            },
+            {
+              "id": "njpter5gmtjfbg3u",
+              "name": "Jeff Hardy",
+              "division": "men"
+            },
+            {
+              "id": "a6l19r3bmtjfbg3u",
+              "name": "Iyo Sky",
+              "division": "women"
+            },
+            {
+              "id": "fgzuadpbmtjfbg3u",
+              "name": "Finn Balor",
+              "division": "men"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1507,7 +2120,83 @@
           "name": "Team 9",
           "owner": "",
           "logo": "",
-          "wrestlers": [],
+          "wrestlers": [
+            {
+              "id": "odcggwzymtjf9etj",
+              "name": "Adam Copeland",
+              "division": "men"
+            },
+            {
+              "id": "zgmt5hnwmtjfbg3p",
+              "name": "Candice LeRae",
+              "division": "women"
+            },
+            {
+              "id": "mxbhco9ymtjfbg3p",
+              "name": "Xia Brookside",
+              "division": "women"
+            },
+            {
+              "id": "pwgst6h1mtjfbg3q",
+              "name": "Riho",
+              "division": "women"
+            },
+            {
+              "id": "tvollr4jmtjfbg3q",
+              "name": "Darby Allin",
+              "division": "men"
+            },
+            {
+              "id": "lwu6yqewmtjfbg3r",
+              "name": "Thunder Rosa",
+              "division": "women"
+            },
+            {
+              "id": "eyp1xnv9mtjfbg3r",
+              "name": "Tasha Steelz",
+              "division": "women"
+            },
+            {
+              "id": "r64m7g6dmtjfbg3s",
+              "name": "Chelsea Green",
+              "division": "women"
+            },
+            {
+              "id": "5la6a7ejmtjfbg3s",
+              "name": "Seth Rollins",
+              "division": "men"
+            },
+            {
+              "id": "o9e4131hmtjfbg3s",
+              "name": "Steve Maclin",
+              "division": "men"
+            },
+            {
+              "id": "5glqjm1fmtjfbg3t",
+              "name": "Ludwig Kaiser",
+              "division": "men"
+            },
+            {
+              "id": "1trueb1omtjfbg3t",
+              "name": "Liv Morgan",
+              "division": "women"
+            },
+            {
+              "id": "lzs7qtzwmtjfbg3t",
+              "name": "Bayley",
+              "division": "women"
+            },
+            {
+              "id": "8lve7wqumtjfbg3u",
+              "name": "Mike Bailey",
+              "division": "men"
+            },
+            {
+              "id": "aflxgafymtjfbg3u",
+              "name": "Kelani Jordan",
+              "division": "women"
+            }
+          ],
           "champions": {
             "men": null,
             "women": null,
@@ -1523,6 +2212,76 @@
             {
               "id": "004ubp1wmthpgddd",
               "name": "Kenny Omega",
+              "division": "men"
+            },
+            {
+              "id": "zvmb25acmtjfbg3p",
+              "name": "Samoa Joe",
+              "division": "men"
+            },
+            {
+              "id": "d4z1d4qxmtjfbg3p",
+              "name": "Anna Jay",
+              "division": "women"
+            },
+            {
+              "id": "f8ojx9yemtjfbg3q",
+              "name": "Shinsuke Nakamura",
+              "division": "men"
+            },
+            {
+              "id": "hmc4ow9jmtjfbg3q",
+              "name": "Je’Von Evans",
+              "division": "men"
+            },
+            {
+              "id": "9u1ukwu0mtjfbg3r",
+              "name": "Lyra Valkyria",
+              "division": "women"
+            },
+            {
+              "id": "ljl0nrbemtjfbg3r",
+              "name": "Rey Mysterio",
+              "division": "men"
+            },
+            {
+              "id": "dp46d0ormtjfbg3s",
+              "name": "Trick Williams",
+              "division": "men"
+            },
+            {
+              "id": "6sqe26yemtjfbg3s",
+              "name": "Wes Lee",
+              "division": "men"
+            },
+            {
+              "id": "4ol1mk9wmtjfbg3t",
+              "name": "Jay White",
+              "division": "men"
+            },
+            {
+              "id": "wvjuesfmmtjfbg3t",
+              "name": "Randy Orton",
+              "division": "men"
+            },
+            {
+              "id": "6l505ygzmtjfbg3t",
+              "name": "Stephanie Vaquer",
+              "division": "women"
+            },
+            {
+              "id": "cyj02uoqmtjfbg3t",
+              "name": "Orange Cassidy",
+              "division": "men"
+            },
+            {
+              "id": "dge71liemtjfbg3u",
+              "name": "Frankie Kazarian",
+              "division": "men"
+            },
+            {
+              "id": "getacqllmtjfbg3u",
+              "name": "Braun Strowman",
               "division": "men"
             }
           ],
@@ -1560,6 +2319,906 @@
             "round": 1,
             "rosterId": "ll8h1h07mtho9cby",
             "name": "Kenny Omega",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Adam Copeland",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Bryan Danielson",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Christian Cage",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Claudio Castagnoli",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Hangman Adam Page",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Jon Moxley",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "MJF",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Oba Femi",
+            "division": "men"
+          },
+          {
+            "round": 1,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Bron Breakker",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Drew McIntyre",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "LA Knight",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Roman Reigns",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Jaida Parker",
+            "division": "women"
+          },
+          {
+            "round": 2,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Rhea Ripley",
+            "division": "women"
+          },
+          {
+            "round": 2,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Channing Lorenzo",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Ace Austin",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Laredo Kid",
+            "division": "men"
+          },
+          {
+            "round": 2,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Candice LeRae",
+            "division": "women"
+          },
+          {
+            "round": 2,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Samoa Joe",
+            "division": "men"
+          },
+          {
+            "round": 3,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Anna Jay",
+            "division": "women"
+          },
+          {
+            "round": 3,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Xia Brookside",
+            "division": "women"
+          },
+          {
+            "round": 3,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Britt Baker",
+            "division": "women"
+          },
+          {
+            "round": 3,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Alexa Bliss",
+            "division": "women"
+          },
+          {
+            "round": 3,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Ash By Elegance",
+            "division": "women"
+          },
+          {
+            "round": 3,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Nic Nemeth",
+            "division": "men"
+          },
+          {
+            "round": 3,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Rosemary",
+            "division": "women"
+          },
+          {
+            "round": 3,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "AJ Styles",
+            "division": "men"
+          },
+          {
+            "round": 3,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Solo Sikoa",
+            "division": "men"
+          },
+          {
+            "round": 3,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Ethan Page",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Eddie Edwards",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Rey Fenix",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Fallon Henley",
+            "division": "women"
+          },
+          {
+            "round": 4,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Sheamus",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Jacy Jayne",
+            "division": "women"
+          },
+          {
+            "round": 4,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Shawn Spears",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Ricochet",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Matthew Jackson",
+            "division": "men"
+          },
+          {
+            "round": 4,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Riho",
+            "division": "women"
+          },
+          {
+            "round": 4,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Shinsuke Nakamura",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Je’Von Evans",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Darby Allin",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Mercedes Mone",
+            "division": "women"
+          },
+          {
+            "round": 5,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Tony D’Angelo",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Josh Alexander",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Cora Jade",
+            "division": "women"
+          },
+          {
+            "round": 5,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Kyle Fletcher",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Chad Gable",
+            "division": "men"
+          },
+          {
+            "round": 5,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Zelina Vega",
+            "division": "women"
+          },
+          {
+            "round": 5,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Grayson Waller",
+            "division": "men"
+          },
+          {
+            "round": 6,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Gunther",
+            "division": "men"
+          },
+          {
+            "round": 6,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Naomi",
+            "division": "women"
+          },
+          {
+            "round": 6,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Powerhouse Hobbs",
+            "division": "men"
+          },
+          {
+            "round": 6,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Jey Uso",
+            "division": "men"
+          },
+          {
+            "round": 6,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Indi Hartwell",
+            "division": "women"
+          },
+          {
+            "round": 6,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "JD McDonagh",
+            "division": "men"
+          },
+          {
+            "round": 6,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Asuka",
+            "division": "women"
+          },
+          {
+            "round": 6,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Damian Priest",
+            "division": "men"
+          },
+          {
+            "round": 6,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Thunder Rosa",
+            "division": "women"
+          },
+          {
+            "round": 6,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Lyra Valkyria",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Rey Mysterio",
+            "division": "men"
+          },
+          {
+            "round": 7,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Tasha Steelz",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Kairi Sane",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Mariah May",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Raquel Rodriguez",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Kris Statlander",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Hikaru Shida",
+            "division": "women"
+          },
+          {
+            "round": 7,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "CM Punk",
+            "division": "men"
+          },
+          {
+            "round": 7,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Lexis King",
+            "division": "men"
+          },
+          {
+            "round": 7,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Ridge Holland",
+            "division": "men"
+          },
+          {
+            "round": 8,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Wren Sinclair",
+            "division": "women"
+          },
+          {
+            "round": 8,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Nia Jax",
+            "division": "women"
+          },
+          {
+            "round": 8,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Leon Slater",
+            "division": "men"
+          },
+          {
+            "round": 8,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Austin Theory",
+            "division": "men"
+          },
+          {
+            "round": 8,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Jordynne Grace",
+            "division": "women"
+          },
+          {
+            "round": 8,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Axiom",
+            "division": "men"
+          },
+          {
+            "round": 8,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Sami Zayn",
+            "division": "men"
+          },
+          {
+            "round": 8,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Moose",
+            "division": "men"
+          },
+          {
+            "round": 8,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Chelsea Green",
+            "division": "women"
+          },
+          {
+            "round": 8,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Trick Williams",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Wes Lee",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Seth Rollins",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Joe Hendry",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Serena Deeb",
+            "division": "women"
+          },
+          {
+            "round": 9,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Spitfire",
+            "division": "women"
+          },
+          {
+            "round": 9,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Apollo Crews",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Konosuke Takeshita",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Nathan Frazer",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Mustafa Ali",
+            "division": "men"
+          },
+          {
+            "round": 9,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Rich Swann",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Will Ospreay",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Eddy Thorpe",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Mark Briscoe",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Toni Storm",
+            "division": "women"
+          },
+          {
+            "round": 10,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Josh Briggs",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Willow Nightingale",
+            "division": "women"
+          },
+          {
+            "round": 10,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Bobby Lashley",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Wheeler Yuta",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Steve Maclin",
+            "division": "men"
+          },
+          {
+            "round": 10,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Jay White",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Randy Orton",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Ludwig Kaiser",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Masha Slamovich",
+            "division": "women"
+          },
+          {
+            "round": 11,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "PAC",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Dani Luna",
+            "division": "women"
+          },
+          {
+            "round": 11,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Andrade",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Ricky Starks",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Jamie Hayter",
+            "division": "women"
+          },
+          {
+            "round": 11,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Montez Ford",
+            "division": "men"
+          },
+          {
+            "round": 11,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Jacob Fatu",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Jimmy Uso",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Swerve Strickland",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Chris Bey",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Daniel Garcia",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Karrion Kross",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Giulia",
+            "division": "women"
+          },
+          {
+            "round": 12,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Kevin Owens",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Matt Hardy",
+            "division": "men"
+          },
+          {
+            "round": 12,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Liv Morgan",
+            "division": "women"
+          },
+          {
+            "round": 12,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Stephanie Vaquer",
+            "division": "women"
+          },
+          {
+            "round": 13,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Orange Cassidy",
+            "division": "men"
+          },
+          {
+            "round": 13,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Bayley",
+            "division": "women"
+          },
+          {
+            "round": 13,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Angelo Dawkins",
+            "division": "men"
+          },
+          {
+            "round": 13,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Otis",
+            "division": "men"
+          },
+          {
+            "round": 13,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Penta El Zero Miedo",
+            "division": "men"
+          },
+          {
+            "round": 13,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Becky Lynch",
+            "division": "women"
+          },
+          {
+            "round": 13,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Tatum Paxley",
+            "division": "women"
+          },
+          {
+            "round": 13,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Piper Niven",
+            "division": "women"
+          },
+          {
+            "round": 13,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Jeff Hardy",
+            "division": "men"
+          },
+          {
+            "round": 13,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Julia Hart",
+            "division": "women"
+          },
+          {
+            "round": 14,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Thea Hail",
+            "division": "women"
+          },
+          {
+            "round": 14,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Iyo Sky",
+            "division": "women"
+          },
+          {
+            "round": 14,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Cody Rhodes",
+            "division": "men"
+          },
+          {
+            "round": 14,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Hook",
+            "division": "men"
+          },
+          {
+            "round": 14,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Nicholas Jackson",
+            "division": "men"
+          },
+          {
+            "round": 14,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Tiffany Stratton",
+            "division": "women"
+          },
+          {
+            "round": 14,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Roxanne Perez",
+            "division": "women"
+          },
+          {
+            "round": 14,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Bianca Belair",
+            "division": "women"
+          },
+          {
+            "round": 14,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Mike Bailey",
+            "division": "men"
+          },
+          {
+            "round": 14,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Frankie Kazarian",
+            "division": "men"
+          },
+          {
+            "round": 15,
+            "rosterId": "ll8h1h07mtho9cby",
+            "name": "Braun Strowman",
+            "division": "men"
+          },
+          {
+            "round": 15,
+            "rosterId": "cgwa4xofmtho97pw",
+            "name": "Kelani Jordan",
+            "division": "women"
+          },
+          {
+            "round": 15,
+            "rosterId": "wujfmldqmtho8s4m",
+            "name": "Skye Blue",
+            "division": "women"
+          },
+          {
+            "round": 15,
+            "rosterId": "xn31rfpamtho8je0",
+            "name": "Carmelo Hayes",
+            "division": "men"
+          },
+          {
+            "round": 15,
+            "rosterId": "6u3wustpmtho837i",
+            "name": "Jade Cargill",
+            "division": "women"
+          },
+          {
+            "round": 15,
+            "rosterId": "57n3yq06mtho7sxt",
+            "name": "Brooks Jensen",
+            "division": "men"
+          },
+          {
+            "round": 15,
+            "rosterId": "8tkh5rqhmtho8xgf",
+            "name": "Trey Miguel",
+            "division": "men"
+          },
+          {
+            "round": 15,
+            "rosterId": "xuu8ta5xmtho7y1k",
+            "name": "Sol Ruca",
+            "division": "women"
+          },
+          {
+            "round": 15,
+            "rosterId": "1qe932vymtho92q2",
+            "name": "Finn Balor",
+            "division": "men"
+          },
+          {
+            "round": 15,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Alisha Edwards",
+            "division": "women"
+          },
+          {
+            "round": 16,
+            "rosterId": "nvzs7xlymtho87j5",
+            "name": "Dominik Mysterio",
             "division": "men"
           }
         ]
