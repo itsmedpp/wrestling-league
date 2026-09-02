@@ -1489,9 +1489,25 @@
             }
           ],
           "champions": {
-            "men": null,
-            "women": null,
-            "tag": null
+            "men": {
+              "rosterId": "57n3yq06mtho7sxt",
+              "entrantIds": [
+                "1cksyb32mtjf9nwt"
+              ]
+            },
+            "women": {
+              "rosterId": "57n3yq06mtho7sxt",
+              "entrantIds": [
+                "wb7avv9xmtjfbg3u"
+              ]
+            },
+            "tag": {
+              "rosterId": "57n3yq06mtho7sxt",
+              "entrantIds": [
+                "m430sju4mtjfbg3t",
+                "ko9g7850mtjfbg3t"
+              ]
+            }
           }
         },
         {
